@@ -1,6 +1,6 @@
 QT       += core gui widgets
 
-TARGET = lab1
+TARGET = qt-labchess
 TEMPLATE = app
 
 CONFIG += c++11

@@ -1,0 +1,75 @@
+{
+    // 查看 https://go.microsoft.com/fwlink/?LinkId=733558
+    // 以获取关于 tasks.json 格式的文档
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // 在当前项目目录创建 build 文件夹
+            "label": "mkdir", // 任务名称
+            "type": "shell", // 任务类型
+            "options": {
+                "cwd": "${workspaceFolder}" // 当前工作目录
+            },
+            "command": "mkdir", // 命令
+            "args": [
+                "build" // 创建的文件夹名称
+            ]
+        },
+        {
+            "label": "qmake-release",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build" // 进入 build 目录
+            },
+            "command": "qmake", // 执行 qmake
+            "args": [
+                "../${workspaceFolderBasename}.pro", // 在 build 目录上一级
+                "\"CONFIG+=qtquickcompiler\"" // 编译优化
+            ],
+            "dependsOn": [
+                //"mkdir" // 依赖于 mkdir 任务
+            ]
+        },
+        {
+            "label": "make-release",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build" // 进入 build 目录
+            },
+            "command": "make", // 执行 make
+            "args": [
+                "-f",
+                "Makefile", // 选择 Makefile
+                "-j" // 并行编译
+            ],
+            "dependsOn": [
+                "qmake-release" // 依赖于 qmake-release 任务
+            ]
+        },
+        {
+            "label": "run-release",
+            "type": "process", // 运行任务
+            "options": {
+                "cwd": "${workspaceFolder}/build" // 进入 build 目录
+            },
+            // 执行的 app 路径
+            "command": "${workspaceFolderBasename}.app/Contents/MacOS/${workspaceFolderBasename}", // for macOS
+            //"command": "${workspaceFolder}/build/release/${workspaceFolderBasename}.exe", // for Windows
+            //"command": "", // for Linux // TODO 请参考上述两个平台的写法，自行查看可执行文件的路径，并进行修改
+            "dependsOn": [
+                "make-release" // 依赖于 make-release 任务
+            ]
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}/build" // 进入 build 目录
+            },
+            "command": "make", // 执行 make
+            "args": [
+                "clean" // 清理构建
+            ]
+        }
+    ]
+}
