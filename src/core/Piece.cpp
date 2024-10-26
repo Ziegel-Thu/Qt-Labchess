@@ -1,6 +1,7 @@
 #include "Piece.h"
 
-Piece::Piece(const std::string& color, const std::string& type) : color_(color), type_(type) {}
+Piece::Piece(const std::string& color, const std::string& type, bool isAlive, int lifespan) 
+    : color_(color), type_(type), isAlive_(isAlive), lifespan_(lifespan) {}
 
 void Piece::setColor(const std::string& color) {
     color_ = color;
@@ -16,4 +17,20 @@ std::string Piece::getColor() const {
 
 std::string Piece::getType() const {
     return type_;
+}
+
+void Piece::setAlive(bool isAlive) {
+    isAlive_ = isAlive;
+}
+
+bool Piece::isAlive() const {
+    return isAlive_;
+}
+
+void Piece::setLifespan(int lifespan) {
+    lifespan_ = lifespan;
+}
+
+int Piece::getLifespan() const {
+    return lifespan_;
 }
