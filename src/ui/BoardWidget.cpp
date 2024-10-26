@@ -42,6 +42,18 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
                 } else {
                     qDebug() << "Failed to load piece image!";
                 }
+
+                if (!piece->isAlive()) {
+                    // 设置字体大小
+                    QFont font = painter.font();
+                    font.setPointSize(12); // 设置字体大小为12
+                    painter.setFont(font);
+
+                    // 在棋子右上角标注寿命，稍微留出边距
+                    int x = col * cellSize_ + cellSize_ - 20; // 右边距
+                    int y = row * cellSize_ + 20; // 上边距
+                    painter.drawText(x, y, QString::number(piece->getLifespan()));
+                }
             }
         }
     }

@@ -16,31 +16,31 @@ Game::Game() {
 
 void Game::initializeChessPieces() {
     // 摆放红方棋子
-    board_->setPiece(0, 0, std::make_shared<Piece>("Red", "Rook"));
-    board_->setPiece(0, 1, std::make_shared<Piece>("Red", "Knight"));
-    board_->setPiece(0, 2, std::make_shared<Piece>("Red", "Bishop"));
-    board_->setPiece(0, 3, std::make_shared<Piece>("Red", "Queen"));
-    board_->setPiece(0, 4, std::make_shared<Piece>("Red", "King"));
-    board_->setPiece(0, 5, std::make_shared<Piece>("Red", "Bishop"));
-    board_->setPiece(0, 6, std::make_shared<Piece>("Red", "Knight"));
-    board_->setPiece(0, 7, std::make_shared<Piece>("Red", "Rook"));
+    board_->setPiece(0, 0, std::make_shared<Piece>("Red", "Rook", true, 1));
+    board_->setPiece(0, 1, std::make_shared<Piece>("Red", "Knight", true, 1));
+    board_->setPiece(0, 2, std::make_shared<Piece>("Red", "Bishop", true, 1));
+    board_->setPiece(0, 3, std::make_shared<Piece>("Red", "Queen", true, 1));
+    board_->setPiece(0, 4, std::make_shared<Piece>("Red", "King", true, 1));
+    board_->setPiece(0, 5, std::make_shared<Piece>("Red", "Bishop", true, 1));
+    board_->setPiece(0, 6, std::make_shared<Piece>("Red", "Knight", true, 1));
+    board_->setPiece(0, 7, std::make_shared<Piece>("Red", "Rook", true, 1));
     
     for (int col = 0; col < 8; ++col) {
-        board_->setPiece(1, col, std::make_shared<Piece>("Red", "Pawn"));
+        board_->setPiece(1, col, std::make_shared<Piece>("Red", "Pawn", true, 1));
     }
 
     // 摆放蓝方棋子
-    board_->setPiece(7, 0, std::make_shared<Piece>("Blue", "Rook"));
-    board_->setPiece(7, 1, std::make_shared<Piece>("Blue", "Knight"));
-    board_->setPiece(7, 2, std::make_shared<Piece>("Blue", "Bishop"));
-    board_->setPiece(7, 3, std::make_shared<Piece>("Blue", "Queen"));
-    board_->setPiece(7, 4, std::make_shared<Piece>("Blue", "King"));
-    board_->setPiece(7, 5, std::make_shared<Piece>("Blue", "Bishop"));
-    board_->setPiece(7, 6, std::make_shared<Piece>("Blue", "Knight"));
-    board_->setPiece(7, 7, std::make_shared<Piece>("Blue", "Rook"));
+    board_->setPiece(7, 0, std::make_shared<Piece>("Blue", "Rook", true, 1));
+    board_->setPiece(7, 1, std::make_shared<Piece>("Blue", "Knight", true, 1));
+    board_->setPiece(7, 2, std::make_shared<Piece>("Blue", "Bishop", true, 1));
+    board_->setPiece(7, 3, std::make_shared<Piece>("Blue", "Queen", true, 1));
+    board_->setPiece(7, 4, std::make_shared<Piece>("Blue", "King", true, 1));
+    board_->setPiece(7, 5, std::make_shared<Piece>("Blue", "Bishop", true, 1));
+    board_->setPiece(7, 6, std::make_shared<Piece>("Blue", "Knight", true, 1));
+    board_->setPiece(7, 7, std::make_shared<Piece>("Blue", "Rook", true, 1));
     
     for (int col = 0; col < 8; ++col) {
-        board_->setPiece(6, col, std::make_shared<Piece>("Blue", "Pawn"));
+        board_->setPiece(6, col, std::make_shared<Piece>("Blue", "Pawn", true, 1));
     }
 }
 
@@ -60,13 +60,7 @@ bool Game::makeMove(int row, int col) {
     }
 
     // 使用当前玩家的颜色和类型创建棋子
-    auto piece = std::make_shared<Piece>(currentPlayer_->getColor(), "Pawn"); // 这里假设是兵，您可以根据实际情况调整
-    board_->setPiece(row, col, piece);
-    board_->recordMoveHistory(row, col);
-    if (board_->isGameOver(row, col)) {
-        end();
-        return true;
-    }
+
 
     switchPlayer();
     return true;
