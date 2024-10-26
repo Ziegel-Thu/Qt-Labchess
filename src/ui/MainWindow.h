@@ -31,4 +31,5 @@ private slots:
     void onGameEnd();
     void onMoveMade(int row, int col);
     void onUndoRequested();
+    void onTimemachineRequested();
 };

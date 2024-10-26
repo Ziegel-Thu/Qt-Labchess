@@ -10,7 +10,7 @@ public:
     Board(int rows, int cols);
     ~Board() = default;
 
-    void clear();
+    void initialize();
     bool setPiece(int row, int col, std::shared_ptr<Piece> piece);
     bool isValidPosition(int row, int col) const;
     bool isGameOver(int row, int col) const;
@@ -20,6 +20,7 @@ public:
     int getRows() const { return rows_; }
     int getCols() const { return cols_; }
     std::shared_ptr<Piece> getPiece(int row, int col) const;
+
 
 protected:
     int rows_;

@@ -4,19 +4,20 @@ Board::Board(int rows, int cols) : rows_(rows), cols_(cols) {
     grid_.resize(rows_, std::vector<std::shared_ptr<Piece>>(cols_, nullptr));
 }
 
-void Board::clear() {
+void Board::initialize() {
     for (auto& row : grid_) {
         std::fill(row.begin(), row.end(), nullptr);
     }
 }
 
 bool Board::setPiece(int row, int col, std::shared_ptr<Piece> piece) {
-    if (!isValidPosition(row, col) || grid_[row][col]) {
-        return false;
+    if (isValidPosition(row, col) && piece) {
+        grid_[row][col] = piece; // 将棋子放置到指定位置
+        return true; // 成功放置棋子
     }
-    grid_[row][col] = piece;
-    return true;
+    return false; // 放置失败
 }
+
 
 bool Board::isValidPosition(int row, int col) const {
     return row >= 0 && row < rows_ && col >= 0 && col < cols_;
@@ -82,3 +83,5 @@ std::shared_ptr<Piece> Board::getPiece(int row, int col) const {
     }
     return grid_[row][col];
 }
+
+

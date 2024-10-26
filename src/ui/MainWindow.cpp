@@ -41,6 +41,7 @@ void MainWindow::setupUi() {
 void MainWindow::connectSignals() {
     connect(operationWidget_.get(), &OperationWidget::startGameRequested, this, &MainWindow::onGameStart);
     connect(operationWidget_.get(), &OperationWidget::undoRequested, this, &MainWindow::onUndoRequested);
+    connect(operationWidget_.get(), &OperationWidget::timemachineRequested, this, &MainWindow::onTimemachineRequested);
     connect(boardWidget_.get(), &BoardWidget::moveMade, this, &MainWindow::onMoveMade);
 }
 
@@ -65,6 +66,9 @@ void MainWindow::onMoveMade(int row, int col) {
     }
 }
 
+void MainWindow::onTimemachineRequested() {
+    
+}
 void MainWindow::onUndoRequested() {
     // 实现悔棋功能并更新界面显示
     if (game_->undoMove()) {
