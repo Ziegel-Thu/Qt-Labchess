@@ -1,7 +1,7 @@
 #include "Piece.h"
 
-Piece::Piece(const std::string& color, const std::string& type, bool isAlive, int lifespan) 
-    : color_(color), type_(type), isAlive_(isAlive), lifespan_(lifespan) {}
+Piece::Piece(const std::string& color, const std::string& type, int row, int col, bool isAlive, int lifespan) 
+    : color_(color), type_(type), row_(row), col_(col), isAlive_(isAlive), lifespan_(lifespan) {}
 
 void Piece::setColor(const std::string& color) {
     color_ = color;
@@ -33,4 +33,20 @@ void Piece::setLifespan(int lifespan) {
 
 int Piece::getLifespan() const {
     return lifespan_;
+}
+
+int Piece::getRow() const {
+    return row_; // 返回行
+}
+
+int Piece::getCol() const {
+    return col_; // 返回列
+}
+
+void Piece::setRow(int row) {
+    row_ = row;
+}
+
+void Piece::setCol(int col) {
+    col_ = col;
 }

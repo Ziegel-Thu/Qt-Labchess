@@ -43,7 +43,7 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
                     qDebug() << "Failed to load piece image!";
                 }
 
-                if (!piece->isAlive()) {
+                if (!piece->isAlive()&&piece->getLifespan()>0) {
                     // 设置字体为粗体
                     QFont font = painter.font();
                     font.setPointSize(20); // 设置字体大小为12
@@ -72,7 +72,7 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
 
 void BoardWidget::mousePressEvent(QMouseEvent *event) {
     QPoint boardPos = pixelToBoard(event->pos());
-    emit moveMade(boardPos.y(), boardPos.x());
+    emit moveMade(boardPos.y(), boardPos.x()); // 这里保持不变
 }
 
 QPoint BoardWidget::boardToPixel(int row, int col) const {
