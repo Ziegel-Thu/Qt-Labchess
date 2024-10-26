@@ -65,6 +65,9 @@ void MainWindow::onPress(int row, int col) {
         boardWidget_->update(); // 更新棋盘
         playerInfoWidget_->update(); // 更新玩家信息
     }
+    if (game_->isGameOver()) {
+        onGameEnd();
+    }
 }
 
 void MainWindow::onTimemachineRequested() {
