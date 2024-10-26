@@ -14,8 +14,10 @@ public:
 signals:
     void startGameRequested();
     void undoRequested();
+    void timemachineRequested();
 
 private:
     std::shared_ptr<QPushButton> startButton_;
     std::shared_ptr<QPushButton> undoButton_;
+    std::shared_ptr<QPushButton> timemachineButton_;
 };
