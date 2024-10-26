@@ -44,10 +44,21 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
                 }
 
                 if (!piece->isAlive()) {
-                    // 设置字体大小
+                    // 设置字体为粗体
                     QFont font = painter.font();
-                    font.setPointSize(12); // 设置字体大小为12
+                    font.setPointSize(20); // 设置字体大小为12
+                    font.setBold(true); // 设置为粗体
                     painter.setFont(font);
+
+                    // 根据棋子的颜色设置文本颜色
+                    QColor textColor;
+                    if (piece->getColor() == "Red") {
+                        textColor = QColor("#620303"); // 红色
+                    } else if (piece->getColor() == "Blue") {
+                        textColor = QColor("#2b1752"); // 蓝色
+                    }
+
+                    painter.setPen(textColor); // 使用指定的颜色
 
                     // 在棋子右上角标注寿命，稍微留出边距
                     int x = col * cellSize_ + cellSize_ - 20; // 右边距
