@@ -18,9 +18,9 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
         for (int col = 0; col < game_->getBoard()->getCols(); ++col) {
             // 计算方格的颜色
             if ((row + col) % 2 == 1) {
-                painter.fillRect(col * squareSize, row * squareSize, squareSize, squareSize, Qt::gray); // 黑色方格
+                painter.fillRect(col * cellSize_, row * cellSize_, cellSize_, cellSize_, Qt::gray); // 黑色方格
             } else {
-                painter.fillRect(col * squareSize, row * squareSize, squareSize, squareSize, Qt::white); // 白色方格
+                painter.fillRect(col * cellSize_, row * cellSize_, cellSize_, cellSize_, Qt::white); // 白色方格
             }
         }
     }
