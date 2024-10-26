@@ -5,6 +5,7 @@
 #include <tuple> // 添加此行以使用 std::tuple
 #include "Board.h"
 #include "Player.h"
+#include "Piece.h" // 确保包含 Piece.h
 
 class Game {
 public:
@@ -27,6 +28,12 @@ public:
     bool isValidMove(std::shared_ptr<Piece> piece, int row, int col, std::shared_ptr<Piece> targetPiece);
     bool press(int row, int col);
     void updateLifespans();
+    bool isKingAlive(const std::string& color);
+
+    // 添加以下两行以定义国王指针
+    std::shared_ptr<Piece> redKing_;
+    std::shared_ptr<Piece> blueKing_;
+
 
 protected:
     std::shared_ptr<Board> board_;
