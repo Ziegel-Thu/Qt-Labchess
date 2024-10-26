@@ -11,7 +11,7 @@ void Board::initialize() {
 }
 
 bool Board::setPiece(int row, int col, std::shared_ptr<Piece> piece) {
-    if (isValidPosition(row, col) && piece) {
+    if (isValidPosition(row, col) ) {
         grid_[row][col] = piece; // 将棋子放置到指定位置
         return true; // 成功放置棋子
     }

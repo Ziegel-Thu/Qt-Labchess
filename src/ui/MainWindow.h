@@ -29,10 +29,13 @@ private:
 private slots:
     void onGameStart();
     void onGameEnd();
-    void onMoveMade(int row, int col);
+    
     void onUndoRequested();
     void onTimemachineRequested();
     void onRedoRequested();
     void updateTimeMachineButton();
     void showUndoRedoButtons(bool show);
+    
+    // 新增 press 方法
+    void onPress(int row, int col);
 };

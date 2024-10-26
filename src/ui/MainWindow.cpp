@@ -44,7 +44,7 @@ void MainWindow::connectSignals() {
     connect(operationWidget_.get(), &OperationWidget::undoRequested, this, &MainWindow::onUndoRequested);
     connect(operationWidget_.get(), &OperationWidget::timemachineRequested, this, &MainWindow::onTimemachineRequested);
     connect(operationWidget_.get(), &OperationWidget::redoRequested, this, &MainWindow::onRedoRequested);
-    connect(boardWidget_.get(), &BoardWidget::moveMade, this, &MainWindow::onMoveMade);
+    connect(boardWidget_.get(), &BoardWidget::moveMade, this, &MainWindow::onPress); // 修改这里
 }
 
 void MainWindow::onGameStart() {
@@ -59,14 +59,11 @@ void MainWindow::onGameEnd() {
     QMessageBox::information(this, "Game Over", str.c_str());
 }
 
-void MainWindow::onMoveMade(int row, int col) {
-    if (game_->makeMove(row, col)) {
-        boardWidget_->update();
-        playerInfoWidget_->update();
-        if (game_->isGameOver()) {
-            onGameEnd();
-        }
-        updateTimeMachineButton(); // 在每次移动后更新时光机按钮
+void MainWindow::onPress(int row, int col) {
+    // 调用游戏的 press 方法
+    if (game_->press(row, col)) {
+        boardWidget_->update(); // 更新棋盘
+        playerInfoWidget_->update(); // 更新玩家信息
     }
 }
 
