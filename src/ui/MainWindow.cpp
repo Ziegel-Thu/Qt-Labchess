@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     game_ = std::make_shared<Game>();
     setupUi();
@@ -42,6 +43,7 @@ void MainWindow::connectSignals() {
     connect(operationWidget_.get(), &OperationWidget::startGameRequested, this, &MainWindow::onGameStart);
     connect(operationWidget_.get(), &OperationWidget::undoRequested, this, &MainWindow::onUndoRequested);
     connect(operationWidget_.get(), &OperationWidget::timemachineRequested, this, &MainWindow::onTimemachineRequested);
+    connect(operationWidget_.get(), &OperationWidget::redoRequested, this, &MainWindow::onRedoRequested);
     connect(boardWidget_.get(), &BoardWidget::moveMade, this, &MainWindow::onMoveMade);
 }
 
@@ -49,6 +51,7 @@ void MainWindow::onGameStart() {
     game_->start();
     boardWidget_->update();
     playerInfoWidget_->update();
+    updateTimeMachineButton(); // 在游戏开始时更新时光机按钮
 }
 
 void MainWindow::onGameEnd() {
@@ -63,16 +66,40 @@ void MainWindow::onMoveMade(int row, int col) {
         if (game_->isGameOver()) {
             onGameEnd();
         }
+        updateTimeMachineButton(); // 在每次移动后更新时光机按钮
     }
 }
 
 void MainWindow::onTimemachineRequested() {
-    
+    // 实现时光机功能
+    operationWidget_->showUndoRedoButtons(true); // 显示回退和前进按钮
 }
+
+void MainWindow::updateTimeMachineButton() {
+    // 获取当前玩家的名字
+    QString currentPlayerName = QString::fromStdString(game_->getCurrentPlayer()->getName()); // 获取当前玩家名字并转换为 QString
+
+    // 更新时光机按钮的文本
+    operationWidget_->getTimeMachineButton()->setText(currentPlayerName + "的时光机"); // 假设 getTimeMachineButton() 返回时光机按钮的指针
+}
+
 void MainWindow::onUndoRequested() {
     // 实现悔棋功能并更新界面显示
     if (game_->undoMove()) {
         boardWidget_->update();
         playerInfoWidget_->update();
+        updateTimeMachineButton(); // 更新时光机按钮
     }
+}
+
+void MainWindow::onRedoRequested() {
+    if (game_->redoMove()) {
+        boardWidget_->update();
+        playerInfoWidget_->update();
+        updateTimeMachineButton(); // 更新时光机按钮
+    }
+}
+
+void MainWindow::showUndoRedoButtons(bool show) {
+    operationWidget_->showUndoRedoButtons(show); // 调用 OperationWidget 中的方法
 }

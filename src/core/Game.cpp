@@ -97,3 +97,7 @@ const std::shared_ptr<Player> Game::getCurrentPlayer() const {
 bool Game::isGameOver() const {
     return gameOver_;
 }
+
+bool Game::redoMove() {
+
+}
