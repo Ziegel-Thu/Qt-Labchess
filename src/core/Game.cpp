@@ -169,7 +169,7 @@ bool Game::press(int row, int col) {
             // 移动棋子到新位置
             selectedPiece_->setRow(row); // 更新行
             selectedPiece_->setCol(col); // 更新列
-
+            board_->setPiece(row, col, selectedPiece_);
             updateLifespans();
             if (!isKingAlive("Red") || !isKingAlive("Blue")) {
                 gameOver_ = true;
@@ -181,7 +181,7 @@ bool Game::press(int row, int col) {
                 (selectedPiece_->getColor() == "Blue" && row == 0)))) {
                 selectedPiece_ = std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", row, col, true, 1); // 升变为后
             }
-            board_->setPiece(row, col, selectedPiece_);
+
             selectedPiece_ = nullptr; // 移动后重置选择
             isPieceSelected_ = false; // 更新选择状态
 
