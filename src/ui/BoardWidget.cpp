@@ -29,7 +29,7 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
 
 
     // 加载车的图片
-    QPixmap rookPixmap("../pics/image.png"); // 使用相对路径
+    QPixmap rookPixmap("../pics/Red/Queen.png"); // 使用相对路径
     if (rookPixmap.isNull()) {
         qDebug() << "Failed to load rook image!";
         return; // 如果加载失败，返回
