@@ -32,4 +32,7 @@ private slots:
     void onMoveMade(int row, int col);
     void onUndoRequested();
     void onTimemachineRequested();
+    void onRedoRequested();
+    void updateTimeMachineButton();
+    void showUndoRedoButtons(bool show);
 };

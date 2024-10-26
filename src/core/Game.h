@@ -21,6 +21,7 @@ public:
     const std::vector<std::shared_ptr<Player>> getPlayers() const;
     const std::shared_ptr<Player> getCurrentPlayer() const;
     bool isGameOver() const;
+    bool redoMove();
     
 
 
