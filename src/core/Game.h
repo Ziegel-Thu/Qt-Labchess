@@ -15,6 +15,7 @@ public:
     bool makeMove(int row, int col);
     bool undoMove();
     void switchPlayer();
+    void initializeChessPieces();
 
     const std::shared_ptr<Board> getBoard() const;
     const std::vector<std::shared_ptr<Player>> getPlayers() const;
