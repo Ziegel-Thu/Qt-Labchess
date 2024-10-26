@@ -4,16 +4,16 @@
 #include <iostream>
 
 
+
+
 Game::Game() {
     board_ = std::make_shared<Board>(8, 8);  // 8x8 的国际象棋棋盘
     players_.push_back(std::make_shared<Player>("Rui", "Red"));   // 红色玩家
     players_.push_back(std::make_shared<Player>("Beta", "Blue")); // 蓝色玩家
     currentPlayer_ = nullptr;
-    gameOver_ = true;
+    gameOver_ = false;
     selectedPiece_ = nullptr; // 初始化选择的棋子
     isPieceSelected_ = false; // 初始化选择状态
-
- // 初始化棋子
 }
 
 void Game::initializeChessPieces() {
@@ -25,25 +25,27 @@ void Game::initializeChessPieces() {
     }
 
     // 摆放红方棋子
+    redKing_ = std::make_shared<Piece>("Red", "King", 0, 4, true, 1);
     board_->setPiece(0, 0, std::make_shared<Piece>("Red", "Rook", 0, 0, true, 1));
     board_->setPiece(0, 1, std::make_shared<Piece>("Red", "Knight", 0, 1, true, 1));
     board_->setPiece(0, 2, std::make_shared<Piece>("Red", "Bishop", 0, 2, true, 1));
     board_->setPiece(0, 3, std::make_shared<Piece>("Red", "Queen", 0, 3, true, 1));
-    board_->setPiece(0, 4, std::make_shared<Piece>("Red", "King", 0, 4, true, 1));
+    board_->setPiece(0, 4, redKing_); // 保存红方国王的��用
     board_->setPiece(0, 5, std::make_shared<Piece>("Red", "Bishop", 0, 5, true, 1));
     board_->setPiece(0, 6, std::make_shared<Piece>("Red", "Knight", 0, 6, true, 1));
     board_->setPiece(0, 7, std::make_shared<Piece>("Red", "Rook", 0, 7, true, 1));
     
     for (int col = 0; col < 8; ++col) {
-        board_->setPiece(1, col, std::make_shared<Piece>("Red", "Pawn", 1, col,true, 1));
+        board_->setPiece(1, col, std::make_shared<Piece>("Red", "Pawn", 1, col, true, 1));
     }
 
     // 摆放蓝方棋子
+    blueKing_ = std::make_shared<Piece>("Blue", "King", 7, 4, true, 1);
     board_->setPiece(7, 0, std::make_shared<Piece>("Blue", "Rook", 7, 0, true, 1));
     board_->setPiece(7, 1, std::make_shared<Piece>("Blue", "Knight", 7, 1, true, 1));
     board_->setPiece(7, 2, std::make_shared<Piece>("Blue", "Bishop", 7, 2, true, 1));
     board_->setPiece(7, 3, std::make_shared<Piece>("Blue", "Queen", 7, 3, true, 1));
-    board_->setPiece(7, 4, std::make_shared<Piece>("Blue", "King", 7, 4, true, 1));
+    board_->setPiece(7, 4, blueKing_); // 保存蓝方国王的引用
     board_->setPiece(7, 5, std::make_shared<Piece>("Blue", "Bishop", 7, 5, true, 1));
     board_->setPiece(7, 6, std::make_shared<Piece>("Blue", "Knight", 7, 6, true, 1));
     board_->setPiece(7, 7, std::make_shared<Piece>("Blue", "Rook", 7, 7, true, 1));
@@ -56,7 +58,7 @@ void Game::initializeChessPieces() {
 void Game::start() {
     initializeChessPieces();
     currentPlayer_ = players_[0];
-    gameOver_ = false;
+
 }
 
 void Game::end() {
@@ -147,84 +149,56 @@ std::tuple<bool, int, int> Game::selectPiece(int row, int col) {
 
 bool Game::press(int row, int col) {
     // 检查游戏是否已经结束
-    if (gameOver_) {
-        return false; // 如果游戏结束，返回失败
-    }
+
 
     // 获取当前点击位置的棋子
     auto piece = board_->getPiece(row, col);
 
     // 如果当前已选择棋子
     if (isPieceSelected_) {
-        // 如果点击的是对方的棋子
-        if (piece ) {
-            if(piece->getColor() != currentPlayer_->getColor()){
-            // 检查移动是否合法
-            if (isValidMove(selectedPiece_, row, col, piece)) {
-                
-                // 擦掉原棋子
-                board_->setPiece(selectedPiece_->getRow(), selectedPiece_->getCol(), nullptr);
-                // 擦掉对方棋子并设置为死亡
-                piece->setAlive(false); // 假设 Piece 类有 setAlive 方法
-
-                selectedPiece_->setRow(row); // 更新行
-                selectedPiece_->setCol(col); // 更新列 // 移动棋子到新位置
-
-                updateLifespans();
-                if ((selectedPiece_->isAlive()||selectedPiece_->getLifespan()>0)&&(selectedPiece_->getType() == "Pawn" && ((selectedPiece_->getColor() == "Red" && row == 7) || (selectedPiece_->getColor() == "Blue" && row == 0)))) {
-                selectedPiece_ = std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", row, col, true, 1); // 升变为后
-
-            }
-                board_->setPiece(row, col, selectedPiece_);
-                selectedPiece_ = nullptr; // 移动后重置选择
-                isPieceSelected_ = false; // 更新选择状态
-                switchPlayer(); // 切换玩家
-                return true; // 移动成功
-            }
-            return true;
-            }
-            else{
-            selectedPiece_ = piece;
-            piece = nullptr;
-            return true;
-            }
-            
-        }
-        // 如果点击的是空位置且移动合���
-        else {
-            if(isValidMove(selectedPiece_, row, col, piece)){
+        // 检查移动是否合法
+        if (isValidMove(selectedPiece_, row, col, piece)) {
             // 擦掉原棋子
             board_->setPiece(selectedPiece_->getRow(), selectedPiece_->getCol(), nullptr);
+
+            // 如果点击的是对方的棋子，处理对方棋子
+            if (piece && piece->getColor() != currentPlayer_->getColor()) {
+                piece->setAlive(false); // 假设 Piece 类有 setAlive 方法
+            }
+
             // 移动棋子到新位置
             selectedPiece_->setRow(row); // 更新行
             selectedPiece_->setCol(col); // 更新列
 
-
             updateLifespans();
-            if ((selectedPiece_->isAlive()||selectedPiece_->getLifespan()>0)&&(selectedPiece_->getType() == "Pawn" && ((selectedPiece_->getColor() == "Red" && row == 7) || (selectedPiece_->getColor() == "Blue" && row == 0)))) {
+            if (!isKingAlive("Red") || !isKingAlive("Blue")) {
+                gameOver_ = true;
+                return false;
+            }
+            if ((selectedPiece_->isAlive() || selectedPiece_->getLifespan() > 0) && 
+                (selectedPiece_->getType() == "Pawn" && 
+                ((selectedPiece_->getColor() == "Red" && row == 7) || 
+                (selectedPiece_->getColor() == "Blue" && row == 0)))) {
                 selectedPiece_ = std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", row, col, true, 1); // 升变为后
             }
             board_->setPiece(row, col, selectedPiece_);
             selectedPiece_ = nullptr; // 移动后重置选择
             isPieceSelected_ = false; // 更新选择状态
+
             switchPlayer(); // 切换玩家
             return true; // 移动成功
-            }
-        return true;
         }
-        
+        return true; // 如果移动不合法，仍然返回 true
+    } else {
+        // 如果当前没有选择棋子，尝试选择棋子
+        if (piece && piece->getColor() == currentPlayer_->getColor()) {
+            selectedPiece_ = piece; // 选择该棋子
+            isPieceSelected_ = true; // 更新选择状态
+            return true; // 选择成功
+        }
     }
-    else{
-    // 如果当前没有选择棋子，尝试选择棋子
-    if (piece && piece->getColor() == currentPlayer_->getColor()) {
-        selectedPiece_ = piece; // 选择该棋子
-        isPieceSelected_ = true; // 更新选择状态
-        return true; // 选择成功
-    }
-    }
-    return true;
-    } 
-
+    return true; // 如果没有选择成功，仍然返回 true
+}
 
 void Game::updateLifespans() {
     for (int row = 0; row < 8; ++row) {
@@ -235,4 +209,15 @@ void Game::updateLifespans() {
             }
         }
     }
+}
+
+// 检查国王是否存活的辅助函数
+bool Game::isKingAlive(const std::string& color) {
+    if (color == "Red") {
+        return redKing_->isAlive(); // 直接返回红方国王的存活状态
+    }
+    else {
+        return blueKing_->isAlive(); // 直接返回蓝方国王的存活状态
+    }
+    return false; // 如果颜色不匹配，返回死亡
 }
