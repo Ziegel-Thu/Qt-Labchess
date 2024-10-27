@@ -44,4 +44,5 @@ private:
     std::shared_ptr<Piece> selectedPiece_; // 当前选择的棋子
     bool isPieceSelected_; // 指示是否已选择棋子
     bool isPathClear(int startRow, int startCol, int endRow, int endCol); // 检查路径是否被阻挡的辅助函数
+    
 };
