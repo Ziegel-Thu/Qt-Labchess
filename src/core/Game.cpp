@@ -200,12 +200,12 @@ bool Game::press(int row, int col) {
                 gameOver_ = true;
                 return false;
             }
-            
+
             if ((selectedPiece_->isAlive() || selectedPiece_->getLifespan() > 0) && 
                 (selectedPiece_->getType() == "Pawn" && 
                 ((selectedPiece_->getColor() == "Red" && row == 7) || 
                 (selectedPiece_->getColor() == "Blue" && row == 0)))) {
-                selectedPiece_ = std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", row, col, true, 1); // 升变为后
+                board_->setPiece(row, col, std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", row, col, true, 1)); // 升变为后
             }
 
             selectedPiece_ = nullptr; // 移动后重置选择
