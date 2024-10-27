@@ -204,8 +204,14 @@ void Game::updateLifespans() {
     for (int row = 0; row < 8; ++row) {
         for (int col = 0; col < 8; ++col) {
             auto piece = board_->getPiece(row, col);
-            if (piece && !piece->isAlive()&&piece->getLifespan() > 0) { // 检查棋子是否已死亡
+            if (piece && !piece->isAlive()) { // 检查棋子是否已死亡
+                if(piece->getLifespan() > 1){
                 piece->setLifespan(piece->getLifespan() - 1); // 假设 Piece 类有 getLifespan 和 setLifespan 方法
+            }
+                else if(piece->getLifespan() == 1){
+                    piece->setAlive(false);
+                    board_->setPiece(row, col, nullptr);
+                }
             }
         }
     }
@@ -214,7 +220,7 @@ void Game::updateLifespans() {
 // 检查国王是否存活的辅助函数
 bool Game::isKingAlive(const std::string& color) {
     if (color == "Red") {
-        return redKing_->isAlive(); // 直接返回红方国王的存活状态
+        return redKing_ ->isAlive(); // 直接返回红方国王的存活状态
     }
     else {
         return blueKing_->isAlive(); // 直接返回蓝方国王的存活状态
