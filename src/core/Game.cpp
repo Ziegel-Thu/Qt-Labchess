@@ -15,6 +15,7 @@ Game::Game() {
 
 void Game::initializeChessPieces() {
     // 清空棋盘上的所有棋子
+    gameOver_ = false;
     for (int row = 0; row < 8; ++row) {
         for (int col = 0; col < 8; ++col) {
             board_->setPiece(row, col, nullptr); // 清空每个位置
@@ -199,6 +200,7 @@ bool Game::press(int row, int col) {
                 gameOver_ = true;
                 return false;
             }
+            
             if ((selectedPiece_->isAlive() || selectedPiece_->getLifespan() > 0) && 
                 (selectedPiece_->getType() == "Pawn" && 
                 ((selectedPiece_->getColor() == "Red" && row == 7) || 

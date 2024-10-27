@@ -63,6 +63,7 @@ void MainWindow::onGameEnd() {
 void MainWindow::onPress(int row, int col) {
     // 调用游戏的 press 方法
     if (game_->press(row, col)) {
+
         boardWidget_->update(); // 更新棋盘
         playerInfoWidget_->update(); // 更新玩家信息
     }
