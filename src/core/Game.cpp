@@ -3,9 +3,6 @@
 #include "Piece.h"
 #include <iostream>
 
-
-
-
 Game::Game() {
     board_ = std::make_shared<Board>(8, 8);  // 8x8 的国际象棋棋盘
     players_.push_back(std::make_shared<Player>("Rui", "Red"));   // 红色玩家
@@ -30,7 +27,7 @@ void Game::initializeChessPieces() {
     board_->setPiece(0, 1, std::make_shared<Piece>("Red", "Knight", 0, 1, true, 1));
     board_->setPiece(0, 2, std::make_shared<Piece>("Red", "Bishop", 0, 2, true, 1));
     board_->setPiece(0, 3, std::make_shared<Piece>("Red", "Queen", 0, 3, true, 1));
-    board_->setPiece(0, 4, redKing_); // 保存红方国王的��用
+    board_->setPiece(0, 4, redKing_); // 保存红方国王的引用
     board_->setPiece(0, 5, std::make_shared<Piece>("Red", "Bishop", 0, 5, true, 1));
     board_->setPiece(0, 6, std::make_shared<Piece>("Red", "Knight", 0, 6, true, 1));
     board_->setPiece(0, 7, std::make_shared<Piece>("Red", "Rook", 0, 7, true, 1));
@@ -58,24 +55,20 @@ void Game::initializeChessPieces() {
 void Game::start() {
     initializeChessPieces();
     currentPlayer_ = players_[0];
-
 }
 
 void Game::end() {
     gameOver_ = true;
 }
 
-
 // 检查移动是否合法的辅助函数
-bool Game::isValidMove(std::shared_ptr<Piece> piece, int row, int col, std::shared_ptr<Piece> targetPiece) {
-
-
-    int currentRow = piece->getRow();
-    int currentCol = piece->getCol();
-    std::string color = piece->getColor();
+bool Game::isValidMove(std::shared_ptr<Piece> selectedPiece, int row, int col, std::shared_ptr<Piece> targetPiece) {
+    int currentRow = selectedPiece->getRow();
+    int currentCol = selectedPiece->getCol();
+    std::string color = selectedPiece->getColor();
 
     // 兵的移动逻辑
-    if (piece->getType() == "Pawn") {
+    if (selectedPiece->getType() == "Pawn") {
         // 计算移动方向
         int direction = (color == "Red") ? 1 : -1; // 红色向下移动，蓝色向上移动
 
@@ -90,18 +83,47 @@ bool Game::isValidMove(std::shared_ptr<Piece> piece, int row, int col, std::shar
         }
         // 检查是否是对角线吃子
         if (abs(col - currentCol) == 1 && row == currentRow + direction) {
-
             return targetPiece != nullptr && targetPiece->getColor() != color; // 目标位置必须有对方棋子
         }
-
     }
 
     // 其他棋子的规则...
-    return false; // 默认返回无效
+    // 检查是否不能移动到自己的棋子上
+    if (targetPiece != nullptr && targetPiece->getColor() == color) {
+        return false; // 不能移动到自己的棋子上
+    }
+
+    // 车的移动逻辑
+    if (selectedPiece->getType() == "Rook") {
+        if (currentRow == row || currentCol == col) {
+            return isPathClear(currentRow, currentCol, row, col);
+        }
+    } else if (selectedPiece->getType() == "Knight") {
+        if ((abs(currentRow - row) == 2 && abs(currentCol - col) == 1) || 
+            (abs(currentRow - row) == 1 && abs(currentCol - col) == 2)) {
+            return targetPiece == nullptr || targetPiece->getColor() != color; // 目标位置可以为空或有对方棋子
+        }
+    } else if (selectedPiece->getType() == "Bishop") {
+        if (abs(currentRow - row) == abs(currentCol - col)) {
+            return isPathClear(currentRow, currentCol, row, col);
+        }
+    } else if (selectedPiece->getType() == "Queen") {
+        if (currentRow == row || currentCol == col || 
+            abs(currentRow - row) == abs(currentCol - col)) {
+            return isPathClear(currentRow, currentCol, row, col);
+        }
+    } else if (selectedPiece->getType() == "King") {
+        if (abs(currentRow - row) <= 1 && abs(currentCol - col) <= 1) {
+            return targetPiece == nullptr || targetPiece->getColor() != color; // 目标位置可以为空或有对方棋子
+        }
+    }
+
+    // 默认返回无效
+    return false; 
 }
 
 bool Game::undoMove() {
-    // 实现悔棋功并切换玩家
+    // 实现悔棋功能并切换玩家
     if (gameOver_) {
         return false;
     }
@@ -133,7 +155,7 @@ bool Game::isGameOver() const {
 }
 
 bool Game::redoMove() {
-
+    // 实现重做功能
 }
 
 std::tuple<bool, int, int> Game::selectPiece(int row, int col) {
@@ -150,20 +172,22 @@ std::tuple<bool, int, int> Game::selectPiece(int row, int col) {
 bool Game::press(int row, int col) {
     // 检查游戏是否已经结束
 
-
     // 获取当前点击位置的棋子
-    auto piece = board_->getPiece(row, col);
-
+    auto targetPiece = board_->getPiece(row, col);
+    
     // 如果当前已选择棋子
     if (isPieceSelected_) {
         // 检查移动是否合法
-        if (isValidMove(selectedPiece_, row, col, piece)) {
+        if (isValidMove(selectedPiece_, row, col, targetPiece)) {
+            
             // 擦掉原棋子
             board_->setPiece(selectedPiece_->getRow(), selectedPiece_->getCol(), nullptr);
 
             // 如果点击的是对方的棋子，处理对方棋子
-            if (piece && piece->getColor() != currentPlayer_->getColor()) {
-                piece->setAlive(false); // 假设 Piece 类有 setAlive 方法
+            if (targetPiece ) {
+                if(targetPiece->getColor() != currentPlayer_->getColor()){
+                targetPiece->setAlive(false);
+                } 
             }
 
             // 移动棋子到新位置
@@ -188,12 +212,18 @@ bool Game::press(int row, int col) {
             switchPlayer(); // 切换玩家
             return true; // 移动成功
         }
+        else if(targetPiece && targetPiece->getColor() == currentPlayer_->getColor()){
+            selectedPiece_ = targetPiece;
+            targetPiece = nullptr;
+            isPieceSelected_ = true;
+            return true;
+        }
         return true; // 如果移动不合法，仍然返回 true
     } else {
         // 如果当前没有选择棋子，尝试选择棋子
-        if (piece && piece->getColor() == currentPlayer_->getColor()) {
-            selectedPiece_ = piece; // 选择该棋子
-            isPieceSelected_ = true; // 更新选择状态
+        if (targetPiece && targetPiece->getColor() == currentPlayer_->getColor()) {
+            selectedPiece_ = targetPiece; // 选择该棋子
+           isPieceSelected_ = true; // 更新选择状态
             return true; // 选择成功
         }
     }
@@ -206,8 +236,8 @@ void Game::updateLifespans() {
             auto piece = board_->getPiece(row, col);
             if (piece && !piece->isAlive()) { // 检查棋子是否已死亡
                 if(piece->getLifespan() > 1){
-                piece->setLifespan(piece->getLifespan() - 1); // 假设 Piece 类有 getLifespan 和 setLifespan 方法
-            }
+                    piece->setLifespan(piece->getLifespan() - 1); // 假设 Piece 类有 getLifespan 和 setLifespan 方法
+                }
                 else if(piece->getLifespan() == 1){
                     piece->setAlive(false);
                     board_->setPiece(row, col, nullptr);
@@ -220,10 +250,29 @@ void Game::updateLifespans() {
 // 检查国王是否存活的辅助函数
 bool Game::isKingAlive(const std::string& color) {
     if (color == "Red") {
-        return redKing_ ->isAlive(); // 直接返回红方国王的存活状态
+        return redKing_->isAlive(); // 直接返回红方国王的存活状态
     }
     else {
         return blueKing_->isAlive(); // 直接返回蓝方国王的存活状态
     }
     return false; // 如果颜色不匹配，返回死亡
 }
+
+// 检查路径是否被阻挡的辅助函数
+bool Game::isPathClear(int startRow, int startCol, int endRow, int endCol) {
+    int rowDirection = (endRow > startRow) ? 1 : (endRow < startRow) ? -1 : 0;
+    int colDirection = (endCol > startCol) ? 1 : (endCol < startCol) ? -1 : 0;
+
+    int currentRow = startRow + rowDirection;
+    int currentCol = startCol + colDirection;
+
+    while (currentRow != endRow || currentCol != endCol) {
+        if (board_->getPiece(currentRow, currentCol) != nullptr) {
+            return false; // 路径被阻挡
+        }
+        currentRow += rowDirection;
+        currentCol += colDirection;
+    }
+    return true; // 路径清晰
+}
+
