@@ -21,6 +21,7 @@ std::string Piece::getType() const {
 
 void Piece::setAlive(bool isAlive) {
     isAlive_ = isAlive;
+    lifespan_ = 0;
 }
 
 bool Piece::isAlive() const {
