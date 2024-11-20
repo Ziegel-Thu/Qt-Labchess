@@ -16,41 +16,76 @@ Game::Game() {
 void Game::initializeChessPieces() {
     // 清空棋盘上的所有棋子
     gameOver_ = false;
-    for (int row = 0; row < 8; ++row) {
+    for
+    (int row = 0; row < 8; ++row) {
         for (int col = 0; col < 8; ++col) {
             board_->setPiece(row, col, nullptr); // 清空每个位置
         }
     }
-
-    // 摆放红方棋子
-    redKing_ = std::make_shared<Piece>("Red", "King", 0, 4, true, 1);
-    board_->setPiece(0, 0, std::make_shared<Piece>("Red", "Rook", 0, 0, true, 1));
-    board_->setPiece(0, 1, std::make_shared<Piece>("Red", "Knight", 0, 1, true, 1));
-    board_->setPiece(0, 2, std::make_shared<Piece>("Red", "Bishop", 0, 2, true, 1));
-    board_->setPiece(0, 3, std::make_shared<Piece>("Red", "Queen", 0, 3, true, 1));
-    board_->setPiece(0, 4, redKing_); // 保存红方国王的引用
-    board_->setPiece(0, 5, std::make_shared<Piece>("Red", "Bishop", 0, 5, true, 1));
-    board_->setPiece(0, 6, std::make_shared<Piece>("Red", "Knight", 0, 6, true, 1));
-    board_->setPiece(0, 7, std::make_shared<Piece>("Red", "Rook", 0, 7, true, 1));
-    
-    for (int col = 0; col < 8; ++col) {
-        board_->setPiece(1, col, std::make_shared<Piece>("Red", "Pawn", 1, col, true, 1));
-    }
-
-    // 摆放蓝方棋子
-    blueKing_ = std::make_shared<Piece>("Blue", "King", 7, 4, true, 1);
-    board_->setPiece(7, 0, std::make_shared<Piece>("Blue", "Rook", 7, 0, true, 1));
-    board_->setPiece(7, 1, std::make_shared<Piece>("Blue", "Knight", 7, 1, true, 1));
-    board_->setPiece(7, 2, std::make_shared<Piece>("Blue", "Bishop", 7, 2, true, 1));
-    board_->setPiece(7, 3, std::make_shared<Piece>("Blue", "Queen", 7, 3, true, 1));
-    board_->setPiece(7, 4, blueKing_); // 保存蓝方国王的引用
-    board_->setPiece(7, 5, std::make_shared<Piece>("Blue", "Bishop", 7, 5, true, 1));
-    board_->setPiece(7, 6, std::make_shared<Piece>("Blue", "Knight", 7, 6, true, 1));
-    board_->setPiece(7, 7, std::make_shared<Piece>("Blue", "Rook", 7, 7, true, 1));
-    
-    for (int col = 0; col < 8; ++col) {
-        board_->setPiece(6, col, std::make_shared<Piece>("Blue", "Pawn", 6, col, true, 1));
-    }
+    redKing_=std::make_shared<Piece>("Red", "King",0, 0, 4, true, 1);
+    redRook1_=std::make_shared<Piece>("Red", "Rook", 1,0, 0, true, 1);
+    redRook2_=std::make_shared<Piece>("Red", "Rook", 2,0, 7, true, 1);
+    redKnight1_=std::make_shared<Piece>("Red", "Knight",3, 0, 1, true, 1);
+    redKnight2_=std::make_shared<Piece>("Red", "Knight",4, 0, 6, true, 1);
+    redBishop1_=std::make_shared<Piece>("Red", "Bishop",5, 0, 2, true, 1);
+    redBishop2_=std::make_shared<Piece>("Red", "Bishop",6, 0, 5, true, 1);
+    redQueen_=std::make_shared<Piece>("Red", "Queen",7, 0, 3, true, 1);
+    redPawn1_=std::make_shared<Piece>("Red", "Pawn",8, 1, 0, true, 1);
+    redPawn2_=std::make_shared<Piece>("Red", "Pawn",9, 1, 1, true, 1);
+    redPawn3_=std::make_shared<Piece>("Red", "Pawn",10, 1, 2, true, 1);
+    redPawn4_=std::make_shared<Piece>("Red", "Pawn",11, 1, 3, true, 1);
+    redPawn5_=std::make_shared<Piece>("Red", "Pawn",12, 1, 4, true, 1);
+    redPawn6_=std::make_shared<Piece>("Red", "Pawn",13, 1, 5, true, 1);
+    redPawn7_=std::make_shared<Piece>("Red", "Pawn",14, 1, 6, true, 1);
+    redPawn8_=std::make_shared<Piece>("Red", "Pawn",15, 1, 7, true, 1);
+    blueKing_=std::make_shared<Piece>("Blue", "King",32, 7, 4, true, 1);
+    blueRook1_=std::make_shared<Piece>("Blue", "Rook",33, 7, 0, true, 1);
+    blueRook2_=std::make_shared<Piece>("Blue", "Rook",34, 7, 7, true, 1);
+    blueKnight1_=std::make_shared<Piece>("Blue", "Knight",35, 7, 1, true, 1);
+    blueKnight2_=std::make_shared<Piece>("Blue", "Knight",36, 7, 6, true, 1);
+    blueBishop1_=std::make_shared<Piece>("Blue", "Bishop",37, 7, 2, true, 1);
+    blueBishop2_=std::make_shared<Piece>("Blue", "Bishop",38, 7, 5, true, 1);
+    blueQueen_=std::make_shared<Piece>("Blue", "Queen",39, 7, 3, true, 1);
+    bluePawn1_=std::make_shared<Piece>("Blue", "Pawn",40, 6, 0, true, 1);
+    bluePawn2_=std::make_shared<Piece>("Blue", "Pawn",41, 6, 1, true, 1);
+    bluePawn3_=std::make_shared<Piece>("Blue", "Pawn",42, 6, 2, true, 1);
+    bluePawn4_=std::make_shared<Piece>("Blue", "Pawn",43, 6, 3, true, 1);
+    bluePawn5_=std::make_shared<Piece>("Blue", "Pawn",44, 6, 4, true, 1);
+    bluePawn6_=std::make_shared<Piece>("Blue", "Pawn",45, 6, 5, true, 1);
+    bluePawn7_=std::make_shared<Piece>("Blue", "Pawn",46, 6, 6, true, 1);
+    bluePawn8_=std::make_shared<Piece>("Blue", "Pawn",47, 6, 7, true, 1);
+    board_->setPiece(0, 0, redRook1_);
+    board_->setPiece(0, 7, redRook2_);
+    board_->setPiece(0, 1, redKnight1_);
+    board_->setPiece(0, 6, redKnight2_);
+    board_->setPiece(0, 2, redBishop1_);
+    board_->setPiece(0, 5, redBishop2_);
+    board_->setPiece(0, 3, redQueen_);
+    board_->setPiece(0, 4, redKing_);
+    board_->setPiece(1, 0, redPawn1_);
+    board_->setPiece(1, 1, redPawn2_);
+    board_->setPiece(1, 2, redPawn3_);
+    board_->setPiece(1, 3, redPawn4_);
+    board_->setPiece(1, 4, redPawn5_);
+    board_->setPiece(1, 5, redPawn6_);
+    board_->setPiece(1, 6, redPawn7_);
+    board_->setPiece(1, 7, redPawn8_);
+    board_->setPiece(6, 0, bluePawn1_);
+    board_->setPiece(6, 1, bluePawn2_);
+    board_->setPiece(6, 2, bluePawn3_);
+    board_->setPiece(6, 3, bluePawn4_);
+    board_->setPiece(6, 4, bluePawn5_);
+    board_->setPiece(6, 5, bluePawn6_);
+    board_->setPiece(6, 6, bluePawn7_);
+    board_->setPiece(6, 7, bluePawn8_);
+    board_->setPiece(7, 0, blueRook1_);
+    board_->setPiece(7, 7, blueRook2_);
+    board_->setPiece(7, 1, blueKnight1_);
+    board_->setPiece(7, 6, blueKnight2_);
+    board_->setPiece(7, 2, blueBishop1_);
+    board_->setPiece(7, 5, blueBishop2_);
+    board_->setPiece(7, 3, blueQueen_);
+    board_->setPiece(7, 4, blueKing_);
 }
 
 void Game::start() {
@@ -205,7 +240,10 @@ bool Game::press(int row, int col) {
                 (selectedPiece_->getType() == "Pawn" && 
                 ((selectedPiece_->getColor() == "Red" && row == 7) || 
                 (selectedPiece_->getColor() == "Blue" && row == 0)))) {
-                board_->setPiece(row, col, std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", row, col, true, 1)); // 升变为后
+                board_->setPiece(row, col, std::make_shared<Piece>(selectedPiece_->getColor(), "Queen",16+numQueenAdditional_+32 *(int) (selectedPiece_->getColor()=="Red"), row, col, true, 1)); // 升变为后
+                numQueenAdditional_++;
+
+
             }
 
             selectedPiece_ = nullptr; // 移动后重置选择
@@ -216,6 +254,7 @@ bool Game::press(int row, int col) {
         }
         else if(targetPiece && targetPiece->getColor() == currentPlayer_->getColor()){
             selectedPiece_ = targetPiece;
+
             targetPiece = nullptr;
             isPieceSelected_ = true;
             return true;

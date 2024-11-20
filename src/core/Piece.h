@@ -4,13 +4,15 @@
 
 class Piece {
 public:
-    Piece(const std::string& color, const std::string& type, int row, int col, bool isAlive = true, int lifespan = 0);
+    Piece(const std::string& color, const std::string& type, int index, int row, int col, bool isAlive = true, int lifespan = 0);
     ~Piece() = default;
 
     void setColor(const std::string& color);
     void setType(const std::string& type);
+    void setIndex(const int index);
     std::string getColor() const;
     std::string getType() const;
+    int getIndex() const;
     bool isAlive() const;
     void setAlive(bool isAlive);
     int getLifespan() const;
@@ -23,6 +25,7 @@ public:
 protected:
     std::string color_;
     std::string type_;
+    int index_;
     int row_; // 行
     int col_; // 列
     bool isAlive_;

@@ -1,14 +1,14 @@
 #include "Piece.h"
 
-Piece::Piece(const std::string& color, const std::string& type, int row, int col, bool isAlive, int lifespan) 
-    : color_(color), type_(type), row_(row), col_(col), isAlive_(isAlive), lifespan_(lifespan) {}
+Piece::Piece(const std::string& color, const std::string& type, int index, int row, int col, bool isAlive, int lifespan) 
+    : color_(color), type_(type), index_(index), row_(row), col_(col), isAlive_(isAlive), lifespan_(lifespan) {}
 
 void Piece::setColor(const std::string& color) {
     color_ = color;
 }
 
-void Piece::setType(const std::string& type) {
-    type_ = type;
+void Piece::setIndex(const int index) {
+    index_ = index;
 }
 
 std::string Piece::getColor() const {
@@ -50,4 +50,10 @@ void Piece::setRow(int row) {
 
 void Piece::setCol(int col) {
     col_ = col;
+}
+void Piece::setType(const std::string& type) {
+    type_ = type;
+}
+int Piece::getIndex() const {
+    return index_;
 }
