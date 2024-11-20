@@ -63,6 +63,8 @@ public:
     std::shared_ptr<Piece> bluePawn6_;
     std::shared_ptr<Piece> bluePawn7_;
     std::shared_ptr<Piece> bluePawn8_;
+    std::shared_ptr<Piece> selectedPiece_;
+    bool isPieceSelected_; // 指示是否已选择棋子
 
 
 
@@ -72,8 +74,6 @@ protected:
     std::shared_ptr<Player> currentPlayer_;
     bool gameOver_;
 private:
-    std::shared_ptr<Piece> selectedPiece_; // 当前选择的棋子
-    bool isPieceSelected_; // 指示是否已选择棋子
     bool isPathClear(int startRow, int startCol, int endRow, int endCol); // 检查路径是否被阻挡的辅助函数
     int numQueenAdditional_=0;
     
