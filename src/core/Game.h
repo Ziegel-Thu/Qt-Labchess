@@ -33,6 +33,37 @@ public:
     // 添加以下两行以定义国王指针
     std::shared_ptr<Piece> redKing_;
     std::shared_ptr<Piece> blueKing_;
+    std::shared_ptr<Piece> redRook1_;
+    std::shared_ptr<Piece> redRook2_;
+    std::shared_ptr<Piece> blueRook1_;
+    std::shared_ptr<Piece> blueRook2_;
+    std::shared_ptr<Piece> redKnight1_;
+    std::shared_ptr<Piece> redKnight2_;
+    std::shared_ptr<Piece> blueKnight1_;
+    std::shared_ptr<Piece> blueKnight2_;
+    std::shared_ptr<Piece> redBishop1_;
+    std::shared_ptr<Piece> redBishop2_;
+    std::shared_ptr<Piece> blueBishop1_;
+    std::shared_ptr<Piece> blueBishop2_;
+    std::shared_ptr<Piece> redQueen_;
+    std::shared_ptr<Piece> blueQueen_;
+    std::shared_ptr<Piece> redPawn1_;
+    std::shared_ptr<Piece> redPawn2_;
+    std::shared_ptr<Piece> redPawn3_;   
+    std::shared_ptr<Piece> redPawn4_;
+    std::shared_ptr<Piece> redPawn5_;
+    std::shared_ptr<Piece> redPawn6_;
+    std::shared_ptr<Piece> redPawn7_;
+    std::shared_ptr<Piece> redPawn8_;
+    std::shared_ptr<Piece> bluePawn1_;
+    std::shared_ptr<Piece> bluePawn2_;
+    std::shared_ptr<Piece> bluePawn3_;
+    std::shared_ptr<Piece> bluePawn4_;
+    std::shared_ptr<Piece> bluePawn5_;
+    std::shared_ptr<Piece> bluePawn6_;
+    std::shared_ptr<Piece> bluePawn7_;
+    std::shared_ptr<Piece> bluePawn8_;
+
 
 
 protected:
@@ -44,5 +75,6 @@ private:
     std::shared_ptr<Piece> selectedPiece_; // 当前选择的棋子
     bool isPieceSelected_; // 指示是否已选择棋子
     bool isPathClear(int startRow, int startCol, int endRow, int endCol); // 检查路径是否被阻挡的辅助函数
+    int numQueenAdditional_=0;
     
 };

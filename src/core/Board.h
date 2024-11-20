@@ -13,10 +13,10 @@ public:
     void initialize();
     bool setPiece(int row, int col, std::shared_ptr<Piece> piece);
     bool isValidPosition(int row, int col) const;
-    bool isGameOver(int row, int col) const;
     bool undoLastMove();
     bool recordMoveHistory(int row,int col);
-
+    //std::pair<int,int> selectedPiecePosition();
+    //bool selectedPiecePositionHighLight();
     int getRows() const { return rows_; }
     int getCols() const { return cols_; }
     std::shared_ptr<Piece> getPiece(int row, int col) const;
