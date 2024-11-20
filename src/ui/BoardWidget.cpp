@@ -22,6 +22,11 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
             } else {
                 painter.fillRect(col * cellSize_, row * cellSize_, cellSize_, cellSize_, Qt::white); // 白色方格
             }
+            if(game_->isPieceSelected_){
+                if(game_->getBoard()->getPiece(row,col)==game_->selectedPiece_){
+                    painter.fillRect(col * cellSize_, row * cellSize_, cellSize_, cellSize_, Qt::yellow); // 黄色方格
+                }
+            }
 
             // 获取棋子
             auto piece = game_->getBoard()->getPiece(row, col);
