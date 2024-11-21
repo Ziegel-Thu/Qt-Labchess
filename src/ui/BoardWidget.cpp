@@ -48,7 +48,7 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
                     qDebug() << "Failed to load piece image!";
                 }
 
-                if (!piece->isAlive()&&piece->getLifespan()>0) {
+                if (!piece->isAlive()&&piece->getDeathTime()>0) {
                     // 设置字体为粗体
                     QFont font = painter.font();
                     font.setPointSize(20); // 设置字体大小为12
@@ -68,7 +68,7 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
                     // 在棋子右上角标注寿命，稍微留出边距
                     int x = col * cellSize_ + cellSize_ - 20; // 右边距
                     int y = row * cellSize_ + 20; // 上边距
-                    painter.drawText(x, y, QString::number(piece->getLifespan()));
+                    painter.drawText(x, y, QString::number(game_->getStep()-piece->getDeathTime()));
                 }
             }
         }

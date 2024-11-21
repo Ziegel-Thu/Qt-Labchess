@@ -6,7 +6,8 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 #include <iostream>
-
+#include <thread>
+#include <QApplication>
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
     game_ = std::make_shared<Game>();
     setupUi();
@@ -41,12 +42,16 @@ void MainWindow::setupUi() {
 }
 
 void MainWindow::connectSignals() {
+
     connect(operationWidget_.get(), &OperationWidget::startGameRequested, this, &MainWindow::onGameStart);
     connect(operationWidget_.get(), &OperationWidget::undoRequested, this, &MainWindow::onUndoRequested);
     connect(operationWidget_.get(), &OperationWidget::timemachineRequested, this, &MainWindow::onTimemachineRequested);
     connect(operationWidget_.get(), &OperationWidget::redoRequested, this, &MainWindow::onRedoRequested);
+    connect(operationWidget_.get(), &OperationWidget::passRequested, this, &MainWindow::onPassRequested);
+    connect(operationWidget_.get(), &OperationWidget::confirmRequested, this, &MainWindow::onConfirmRequested);
     connect(boardWidget_.get(), &BoardWidget::moveMade, this, &MainWindow::onPress); // 修改这里
-}
+    connect(game_.get(), &Game::updateGameTimeMachineButton, this, &MainWindow::updateTimeMachineButton);}
+
 
 void MainWindow::onGameStart() {
     game_->start();
@@ -75,26 +80,45 @@ void MainWindow::onPress(int row, int col) {
 void MainWindow::onTimemachineRequested() {
     // 实现时光机功能
     operationWidget_->showUndoRedoButtons(true); // 显示回退和前进按钮
+    operationWidget_->showPassConfirmButtons(true);
+    game_->setSelectable(false);
+
 }
 
 void MainWindow::updateTimeMachineButton() {
     // 获取当前玩家的名字
     QString currentPlayerName = QString::fromStdString(game_->getCurrentPlayer()->getName()); // 获取当前玩家名字并转换为 QString
+    operationWidget_->getTimeMachineButtonBeta()->setVisible(false);
+    operationWidget_->getTimeMachineButtonRui()->setVisible(false);
+    if((currentPlayerName=="Beta"&&game_->machineNumberBeta_!=0)){
+        operationWidget_->getTimeMachineButtonBeta()->setVisible(true);
 
-    // 更新时光机按钮的文本
-    operationWidget_->getTimeMachineButton()->setText(currentPlayerName + "的时光机"); // 假设 getTimeMachineButton() 返回时光机按钮的指针
+    }
+    if((currentPlayerName=="Rui"&&game_->machineNumberRui_!=0)){
+        operationWidget_->getTimeMachineButtonRui()->setVisible(true);
+    }
+
+
 }
 
 void MainWindow::onUndoRequested() {
-    // 实现悔棋功能并更新界面显示
+    game_->undoMove();
     if (game_->undoMove()) {
-        boardWidget_->update();
         playerInfoWidget_->update();
-        updateTimeMachineButton(); // 更新时光机按钮
+        boardWidget_->update();
+        QApplication::processEvents();
     }
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+    if(game_->undoMove()){
+        playerInfoWidget_->update();
+        boardWidget_->update();
+        QApplication::processEvents();
+    }
+    updateTimeMachineButton();
 }
 
 void MainWindow::onRedoRequested() {
+
     if (game_->redoMove()) {
         boardWidget_->update();
         playerInfoWidget_->update();
@@ -104,4 +128,20 @@ void MainWindow::onRedoRequested() {
 
 void MainWindow::showUndoRedoButtons(bool show) {
     operationWidget_->showUndoRedoButtons(show); // 调用 OperationWidget 中的方法
+}
+
+void MainWindow::onPassRequested(){
+    operationWidget_->showUndoRedoButtons(false);
+    game_->pass();
+    boardWidget_->update();
+    playerInfoWidget_->update();
+    updateTimeMachineButton(); 
+}
+
+void MainWindow::onConfirmRequested(){
+    operationWidget_->showUndoRedoButtons(false);
+    game_->confirm();
+    boardWidget_->update();
+    playerInfoWidget_->update();
+    updateTimeMachineButton();
 }
