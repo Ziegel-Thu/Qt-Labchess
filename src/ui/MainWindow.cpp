@@ -102,17 +102,13 @@ void MainWindow::updateTimeMachineButton() {
 }
 
 void MainWindow::onUndoRequested() {
-    game_->undoMove();
     if (game_->undoMove()) {
         playerInfoWidget_->update();
         boardWidget_->update();
-        QApplication::processEvents();
     }
-    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     if(game_->undoMove()){
         playerInfoWidget_->update();
         boardWidget_->update();
-        QApplication::processEvents();
     }
     updateTimeMachineButton();
 }
@@ -132,6 +128,7 @@ void MainWindow::showUndoRedoButtons(bool show) {
 
 void MainWindow::onPassRequested(){
     operationWidget_->showUndoRedoButtons(false);
+    operationWidget_->showPassConfirmButtons(false);
     game_->pass();
     boardWidget_->update();
     playerInfoWidget_->update();
@@ -140,6 +137,7 @@ void MainWindow::onPassRequested(){
 
 void MainWindow::onConfirmRequested(){
     operationWidget_->showUndoRedoButtons(false);
+    operationWidget_->showPassConfirmButtons(false);
     game_->confirm();
     boardWidget_->update();
     playerInfoWidget_->update();
