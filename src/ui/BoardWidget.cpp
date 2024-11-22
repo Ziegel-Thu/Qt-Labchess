@@ -68,7 +68,7 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
                     // 在棋子右上角标注寿命，稍微留出边距
                     int x = col * cellSize_ + cellSize_ - 20; // 右边距
                     int y = row * cellSize_ + 20; // 上边距
-                    painter.drawText(x, y, QString::number(game_->getStep()-piece->getDeathTime()));
+                    painter.drawText(x, y, QString::number(piece->getDeathTime()-game_->getStep()+1));
                 }
             }
         }

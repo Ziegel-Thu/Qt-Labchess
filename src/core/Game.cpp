@@ -57,7 +57,7 @@ void Game::initializeChessPieces()
     {
         pieceList_.push_back(std::make_shared<Piece>("Blue", "Pawn", 24 + i, 6, i, true, -1));
     }
-    for (int i = 0; i < pieceList_.size(); i++)
+    for (int i = 0; i < static_cast<int>(pieceList_.size()); i++)
     {
         board_->setPiece(pieceList_[i]->getRow(), pieceList_[i]->getCol(), pieceList_[i]);
     }
@@ -165,13 +165,18 @@ bool Game::undoMove()
     {
         return false;
     }
-    if (moveHistory_.size() ==0)
+    if (moveHistory_.size() ==1)
     {
+        if(getCurrentPlayer()->getName()=="Beta"){
+            redoBoard();
+            redoHistory();
+        }
         QMessageBox::information(nullptr, "提示", "没有更早步骤");
+
         return false;
     }
-    undoBoard();
     undoHistory();
+    undoBoard();
     return true;
 }
 
@@ -213,7 +218,6 @@ bool Game::redoMove()
     }
     redoBoard();
     redoHistory();
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     redoBoard();
     redoHistory();
     return true;
@@ -275,8 +279,8 @@ bool Game::press(int row, int col)
 
             if ((selectedPiece_->isAlive()) &&
                 (selectedPiece_->getType() == "Pawn" &&
-                 ((selectedPiece_->getColor() == "Red" && row == 7) ||
-                  (selectedPiece_->getColor() == "Blue" && row == 0))))
+                ((selectedPiece_->getColor() == "Red" && row == 7) ||
+                (selectedPiece_->getColor() == "Blue" && row == 0))))
             {
                 board_->setPiece(row, col, std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", 32 + numQueenAdditional_, row, col, true, -1)); // 升变为后
                 pieceList_.push_back(std::make_shared<Piece>(selectedPiece_->getColor(), "Queen", 32 + numQueenAdditional_, row, col, true, -1));
@@ -409,8 +413,10 @@ void Game::pass()
         viewedMoveHistory_.pop_back();
     }
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
-    for (int i = 0; i < temp.size(); i++)
+    for (int i = 0; i < static_cast<int>(temp.size()); i++)
     {
+        std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
+        std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
         board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
     }
     viewedMoveHistory_.pop_back();
@@ -431,10 +437,11 @@ void Game::confirm()
 }
 void Game::undoBoard(){
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = moveHistory_.back();
-    for (int i = 0; i < temp.size(); i++)
+    for (int i = 0; i < static_cast<int>(temp.size()); i++)
     {
         if(std::get<0>(temp[i])){
-            std::get<0>(temp[i])->setDeathTime(std::get<3>(temp[i]));
+            std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
+            std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
             board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
         }
         else{
@@ -454,10 +461,11 @@ void Game::redoHistory(){
 }
 void Game::redoBoard(){
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
-    for (int i = 0; i < temp.size(); i++)
+    for (int i = 0; i < static_cast<int>(temp.size()); i++)
     {
         if(std::get<0>(temp[i])){
-            std::get<0>(temp[i])->setDeathTime(std::get<3>(temp[i]));
+            std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
+            std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
             board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
         }
         else{
