@@ -411,13 +411,19 @@ void Game::pass()
     {
         std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
         viewedMoveHistory_.pop_back();
+        moveHistory_.push_back(temp);
     }
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
     for (int i = 0; i < static_cast<int>(temp.size()); i++)
     {
-        std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
-        std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
-        board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
+        if(std::get<0>(temp[i])){
+            std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
+            std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
+            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
+        }
+        else{
+            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), nullptr);
+        }
     }
     viewedMoveHistory_.pop_back();
     moveHistory_.push_back(temp);
