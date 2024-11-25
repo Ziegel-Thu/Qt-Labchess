@@ -44,17 +44,18 @@ public:
     std::vector<std::shared_ptr<Piece> > pieceList_;
     bool selectable_=true;
     void setSelectable(bool selectable);
-    int machineNumberBeta_;
-    int machineNumberRui_;
+    int machineNumber1_;
+    int machineNumber0_;
     void pass();
     void confirm();
+    std::vector<std::shared_ptr<Player>> players_;
+
 
 signals:
     void updateGameTimeMachineButton();
 
 protected:
     std::shared_ptr<Board> board_;
-    std::vector<std::shared_ptr<Player>> players_;
     std::shared_ptr<Player> currentPlayer_;
     bool gameOver_;
 

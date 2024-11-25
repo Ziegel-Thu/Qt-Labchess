@@ -12,8 +12,9 @@ public:
 
     std::string getName() const;
     std::string getColor() const;
+    std::string name_;
 
 protected:
-    std::string name_;
+
     std::string color_;
 };

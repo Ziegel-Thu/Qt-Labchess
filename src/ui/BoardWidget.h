@@ -20,6 +20,7 @@ signals:
 private:
     std::shared_ptr<Game> game_;
     int cellSize_;
+    int stripSize_;
 
     QPoint boardToPixel(int row, int col) const;
     QPoint pixelToBoard(const QPoint& pixel) const;
