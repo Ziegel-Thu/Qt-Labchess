@@ -1,13 +1,14 @@
 #include "OperationWidget.h"
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <iostream>
 
-OperationWidget::OperationWidget(QWidget *parent) : QWidget(parent) {
+OperationWidget::OperationWidget(QWidget *parent, std::shared_ptr<Game> game) : QWidget(parent), game_(game) {
     auto layout = new QVBoxLayout(this);
 
     startButton_ = std::make_shared<QPushButton>("开始游戏", this);
-    timemachineButtonBeta_ = std::make_shared<QPushButton>("Beta的时光机", this);
-    timemachineButtonRui_ = std::make_shared<QPushButton>("Rui的时光机", this);
+    timemachineButton1_ = std::make_shared<QPushButton>(QString::fromStdString(game_->players_[1]->getName())+"的时光机", this);
+    timemachineButton0_ = std::make_shared<QPushButton>(QString::fromStdString(game_->players_[0]->getName())+"的时光机", this);
     undoButton_ = std::make_shared<QPushButton>("回退", this);
     redoButton_ = std::make_shared<QPushButton>("前进", this);
     passButton_ = std::make_shared<QPushButton>("放弃", this);
@@ -18,10 +19,10 @@ OperationWidget::OperationWidget(QWidget *parent) : QWidget(parent) {
     redoButton_->setVisible(false);
 
     layout->addWidget(startButton_.get());
-    layout->addWidget(timemachineButtonBeta_.get());
-    layout->addWidget(timemachineButtonRui_.get());
-    timemachineButtonBeta_->setVisible(false);
-    timemachineButtonRui_->setVisible(false);
+    layout->addWidget(timemachineButton1_.get());
+    layout->addWidget(timemachineButton0_.get());
+    timemachineButton1_->setVisible(false);
+    timemachineButton0_->setVisible(false);
     layout->addWidget(undoButton_.get());
     layout->addWidget(redoButton_.get());
     layout->addWidget(passButton_.get());
@@ -30,19 +31,19 @@ OperationWidget::OperationWidget(QWidget *parent) : QWidget(parent) {
     confirmButton_->setVisible(false);
     connect(startButton_.get(), &QPushButton::clicked, this, &OperationWidget::startGameRequested);
     connect(undoButton_.get(), &QPushButton::clicked, this, &OperationWidget::undoRequested);
-    connect(timemachineButtonBeta_.get(), &QPushButton::clicked, this, &OperationWidget::timemachineRequested);
-    connect(timemachineButtonRui_.get(), &QPushButton::clicked, this, &OperationWidget::timemachineRequested);
+    connect(timemachineButton1_.get(), &QPushButton::clicked, this, &OperationWidget::timemachineRequested);
+    connect(timemachineButton0_.get(), &QPushButton::clicked, this, &OperationWidget::timemachineRequested);
     connect(redoButton_.get(), &QPushButton::clicked, this, &OperationWidget::redoRequested);
     connect(passButton_.get(), &QPushButton::clicked, this, &OperationWidget::passRequested);
     connect(confirmButton_.get(), &QPushButton::clicked, this, &OperationWidget::confirmRequested);
 }
 
-std::shared_ptr<QPushButton> OperationWidget::getTimeMachineButtonBeta() const {
-    return timemachineButtonBeta_;
+std::shared_ptr<QPushButton> OperationWidget::getTimeMachineButton1() const {
+    return timemachineButton1_;
 }
 
-std::shared_ptr<QPushButton> OperationWidget::getTimeMachineButtonRui() const {
-    return timemachineButtonRui_;
+std::shared_ptr<QPushButton> OperationWidget::getTimeMachineButton0() const {
+    return timemachineButton0_;
 }
 
 void OperationWidget::showUndoRedoButtons(bool show) {

@@ -28,7 +28,7 @@ void MainWindow::setupUi() {
 
     boardWidget_ = std::make_shared<BoardWidget>(game_, this);
     playerInfoWidget_ = std::make_shared<PlayerInfoWidget>(game_, this);
-    operationWidget_ = std::make_shared<OperationWidget>(this);
+    operationWidget_ = std::make_shared<OperationWidget>(this, game_);
 
     mainLayout->addWidget(boardWidget_.get());
 
@@ -57,6 +57,8 @@ void MainWindow::onGameStart() {
     game_->start();
     boardWidget_->update();
     playerInfoWidget_->update();
+    operationWidget_->showUndoRedoButtons(false);
+    operationWidget_->showPassConfirmButtons(false);
     updateTimeMachineButton(); // 在游戏开始时更新时光机按钮
 }
 
@@ -88,14 +90,14 @@ void MainWindow::onTimemachineRequested() {
 void MainWindow::updateTimeMachineButton() {
     // 获取当前玩家的名字
     QString currentPlayerName = QString::fromStdString(game_->getCurrentPlayer()->getName()); // 获取当前玩家名字并转换为 QString
-    operationWidget_->getTimeMachineButtonBeta()->setVisible(false);
-    operationWidget_->getTimeMachineButtonRui()->setVisible(false);
-    if((currentPlayerName=="Beta"&&game_->machineNumberBeta_!=0)){
-        operationWidget_->getTimeMachineButtonBeta()->setVisible(true);
+    operationWidget_->getTimeMachineButton1()->setVisible(false);
+    operationWidget_->getTimeMachineButton0()->setVisible(false);
+    if((currentPlayerName==QString::fromStdString(game_->players_[1]->getName())&&game_->machineNumber1_!=0)){
+        operationWidget_->getTimeMachineButton1()->setVisible(true);
 
     }
-    if((currentPlayerName=="Rui"&&game_->machineNumberRui_!=0)){
-        operationWidget_->getTimeMachineButtonRui()->setVisible(true);
+    if((currentPlayerName==QString::fromStdString(game_->players_[0]->getName())&&game_->machineNumber0_!=0)){
+        operationWidget_->getTimeMachineButton0()->setVisible(true);
     }
 
 

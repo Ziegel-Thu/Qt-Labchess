@@ -14,8 +14,8 @@ Game::Game()
     gameOver_ = false;
     selectedPiece_ = nullptr; // 初始化选择的棋子
     isPieceSelected_ = false; // 初始化选择状态
-    machineNumberBeta_ = 1;
-    machineNumberRui_ = 1;
+    machineNumber1_ = 1;
+    machineNumber0_ = 1;
     selectable_ = true;
 }
 
@@ -67,8 +67,15 @@ void Game::initializeChessPieces()
 
 void Game::start()
 {
+    pieceList_.clear();
+    numQueenAdditional_ = 0;
+    moveHistory_.clear();
+    viewedMoveHistory_.clear();
+    machineNumber1_ = 1;
+    machineNumber0_ = 1;
     initializeChessPieces();
     currentPlayer_ = players_[0];
+
 }
 
 void Game::end()
@@ -167,7 +174,7 @@ bool Game::undoMove()
     }
     if (moveHistory_.size() ==1)
     {
-        if(getCurrentPlayer()->getName()=="Beta"){
+        if(getCurrentPlayer()->getName()==players_[1]->getName()){
             redoBoard();
             redoHistory();
         }
@@ -432,13 +439,13 @@ void Game::confirm()
 {
     selectable_ = true;
     viewedMoveHistory_.clear();
-    if (getCurrentPlayer()->getName() == "Beta")
+    if (getCurrentPlayer()->getName() == players_[1]->getName())
     {
-        machineNumberBeta_--;
+        machineNumber1_--;
     }
     else
     {
-        machineNumberRui_--;
+        machineNumber0_--;
     }
 }
 void Game::undoBoard(){
