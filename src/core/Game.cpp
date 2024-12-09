@@ -31,35 +31,35 @@ void Game::initializeChessPieces()
         }
     }
     pieceList_.clear();
-    redKing_ = std::make_shared<Piece>("Red", "King", 0, 0, 4, true, -1);
+    redKing_ = std::make_shared<Piece>("Red", "King", false, 0, 4, true, -1);
     pieceList_.push_back(redKing_);
-    pieceList_.push_back(std::make_shared<Piece>("Red", "Rook", 1, 0, 0, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Red", "Rook", 2, 0, 7, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Red", "Knight", 3, 0, 1, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Red", "Knight", 4, 0, 6, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Red", "Bishop", 5, 0, 2, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Red", "Bishop", 6, 0, 5, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Red", "Queen", 7, 0, 3, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Red", "Rook", false, 0, 0, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Red", "Rook", true, 0, 7, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Red", "Knight", true, 0, 1, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Red", "Knight", false, 0, 6, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Red", "Bishop", false, 0, 2, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Red", "Bishop", true, 0, 5, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Red", "Queen", true, 0, 3, true, -1));
     for (int i = 0; i < 8; i++)
     {
-        pieceList_.push_back(std::make_shared<Piece>("Red", "Pawn", 8 + i, 1, i, true, -1));
+        pieceList_.push_back(std::make_shared<Piece>("Red", "Pawn", i % 2 == 0, 1, i, true, -1));
     }
-    blueKing_ = std::make_shared<Piece>("Blue", "King", 16, 7, 4, true, -1);
+    blueKing_ = std::make_shared<Piece>("Blue", "King", false, 7, 4, true, -1);
     pieceList_.push_back(blueKing_);
-    pieceList_.push_back(std::make_shared<Piece>("Blue", "Rook", 17, 7, 0, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Blue", "Rook", 18, 7, 7, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Blue", "Knight", 19, 7, 1, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Blue", "Knight", 20, 7, 6, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Blue", "Bishop", 21, 7, 2, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Blue", "Bishop", 22, 7, 5, true, -1));
-    pieceList_.push_back(std::make_shared<Piece>("Blue", "Queen", 23, 7, 3, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Blue", "Rook", false, 7, 0, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Blue", "Rook", true, 7, 7, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Blue", "Knight", true, 7, 1, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Blue", "Knight", false, 7, 6, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Blue", "Bishop", false, 7, 2, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Blue", "Bishop", true, 7, 5, true, -1));
+    pieceList_.push_back(std::make_shared<Piece>("Blue", "Queen", true, 7, 3, true, -1));
     for (int i = 0; i < 8; i++)
     {
-        pieceList_.push_back(std::make_shared<Piece>("Blue", "Pawn", 24 + i, 6, i, true, -1));
+        pieceList_.push_back(std::make_shared<Piece>("Blue", "Pawn", i % 2 == 0, 6, i, true, -1));
     }
-    for (int i = 0; i < static_cast<int>(pieceList_.size()); i++)
+    for (const auto& piece : pieceList_)
     {
-        board_->setPiece(pieceList_[i]->getRow(), pieceList_[i]->getCol(), pieceList_[i]);
+        board_->setPiece(piece->getRow(), piece->getCol(), piece);
     }
     updateMoveHistory();
 
@@ -361,10 +361,8 @@ bool Game::isKingAlive(const std::string &color)
 // 检查路径是否被阻挡的辅助函数
 bool Game::isPathClear(int startRow, int startCol, int endRow, int endCol)
 {
-    int rowDirection = (endRow > startRow) ? 1 : (endRow < startRow) ? -1
-                                                                     : 0;
-    int colDirection = (endCol > startCol) ? 1 : (endCol < startCol) ? -1
-                                                                     : 0;
+    int rowDirection = (endRow > startRow) ? 1 : (endRow < startRow) ? -1 : 0;
+    int colDirection = (endCol > startCol) ? 1 : (endCol < startCol) ? -1 : 0;
 
     int currentRow = startRow + rowDirection;
     int currentCol = startCol + colDirection;
@@ -421,15 +419,15 @@ void Game::pass()
         moveHistory_.push_back(temp);
     }
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
-    for (int i = 0; i < static_cast<int>(temp.size()); i++)
+    for (const auto& [piece, row, col, deathTime] : temp)
     {
-        if(std::get<0>(temp[i])){
-            std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
-            std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
-            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
+        if (piece) {
+            piece->setCol(col);
+            piece->setRow(row);
+            board_->setPiece(row, col, piece);
         }
-        else{
-            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), nullptr);
+        else {
+            board_->setPiece(row, col, nullptr);
         }
     }
     viewedMoveHistory_.pop_back();
@@ -450,15 +448,15 @@ void Game::confirm()
 }
 void Game::undoBoard(){
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = moveHistory_.back();
-    for (int i = 0; i < static_cast<int>(temp.size()); i++)
+    for (const auto& [piece, row, col,deathTime] : temp)
     {
-        if(std::get<0>(temp[i])){
-            std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
-            std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
-            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
+        if (piece) {
+            piece->setCol(col);
+            piece->setRow(row);
+            board_->setPiece(row, col, piece);
         }
-        else{
-            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), nullptr);
+        else {
+            board_->setPiece(row, col, nullptr);
         }
     }
 }
@@ -474,15 +472,15 @@ void Game::redoHistory(){
 }
 void Game::redoBoard(){
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
-    for (int i = 0; i < static_cast<int>(temp.size()); i++)
+    for (const auto& [piece, row, col,deathTime] : temp)
     {
-        if(std::get<0>(temp[i])){
-            std::get<0>(temp[i])->setCol(std::get<2>(temp[i]));
-            std::get<0>(temp[i])->setRow(std::get<1>(temp[i]));
-            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), std::get<0>(temp[i]));
+        if (piece) {
+            piece->setCol(col);
+            piece->setRow(row);
+            board_->setPiece(row, col, piece);
         }
-        else{
-            board_->setPiece(std::get<1>(temp[i]), std::get<2>(temp[i]), nullptr);
+        else {
+            board_->setPiece(row, col, nullptr);
         }
     }
 }

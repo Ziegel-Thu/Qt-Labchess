@@ -13,6 +13,12 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+    void drawPiece(QPainter& painter, std::shared_ptr<Piece> piece, int row, int col);
+    void drawTopStrip(QPainter& painter);
+    void drawBottomStrip(QPainter& painter);
+    void drawBoardCell(QPainter& painter, int row, int col);
+    void drawTimeIndicator(QPainter& painter, int row, int col);
+    void drawDeathTimer(QPainter& painter, std::shared_ptr<Piece> piece, int row, int col);
 
 signals:
     void moveMade(int row, int col);
