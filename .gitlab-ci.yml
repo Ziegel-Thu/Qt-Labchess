@@ -1,4 +1,8 @@
-'''stages:
+workflow:
+  rules:
+    - when: never
+
+stages:
   - build
   - test
   - upload_artifacts
@@ -38,4 +42,4 @@ test-undo:
     - qmake ../lab1-tests.pro
     - make
     - QT_QPA_PLATFORM=offscreen ./lab1-tests
-''''
+
