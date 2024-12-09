@@ -22,9 +22,12 @@ void BoardWidget::paintEvent(QPaintEvent *event) {
             drawBoardCell(painter, row, col);
             auto piece = game_->getBoard()->getPiece(row, col);
             if (piece) {
-                drawPiece(painter, piece, row, col);
+                drawPiece(painter, piece, row, col, 255);
             }
         }
+    }
+    for(auto piece:game_->getDyingPieceList()){
+        drawPiece(painter, piece, piece->getRow(), piece->getCol(), 192);
     }
 
     drawBottomStrip(painter);
@@ -45,20 +48,27 @@ void BoardWidget::drawBoardCell(QPainter& painter, int row, int col) {
                     cellSize_, cellSize_, cellColor);
 }
 
-void BoardWidget::drawPiece(QPainter& painter, std::shared_ptr<Piece> piece, int row, int col) {
+void BoardWidget::drawPiece(QPainter& painter, std::shared_ptr<Piece> piece, int row, int col, int opacity) {
     // 构建图片路径
     std::string color = piece->getColor();
     std::string type = piece->getType();
+    if(!piece->isAlive()&&piece->getDeathTime()<game_->getStep()){
+        return;
+    }
     std::string pieceImagePath = "../pics/" + color + "/" + type + ".png";
 
     QPixmap piecePixmap(QString::fromStdString(pieceImagePath));
     if (!piecePixmap.isNull()) {
-        // 缩放图片
         QPixmap scaledPiecePixmap = piecePixmap.scaled(cellSize_, cellSize_, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        // 计算棋子的绘制位置
+        QPixmap tempPixmap(scaledPiecePixmap.size());
+        tempPixmap.fill(Qt::transparent);
+
+        QPainter tempPainter(&tempPixmap);
+        tempPainter.setOpacity(opacity / 255.0);
+        tempPainter.drawPixmap(0, 0, scaledPiecePixmap);
+        
         QPoint position = boardToPixel(row, col);
-        // 绘制棋子
-        painter.drawPixmap(position.x() - scaledPiecePixmap.width() / 2, position.y() - scaledPiecePixmap.height() / 2, scaledPiecePixmap);
+        painter.drawPixmap(position.x() - tempPixmap.width() / 2, position.y() - tempPixmap.height() / 2, tempPixmap);
 
 
         // 如果是时间棋子，绘制金色指示器
@@ -67,7 +77,7 @@ void BoardWidget::drawPiece(QPainter& painter, std::shared_ptr<Piece> piece, int
         }
 
         // 如果棋子已死亡且有死亡时间，先画遮罩，再画计时器
-        if (!piece->isAlive() && piece->getDeathTime() > 0) {
+        if (!piece->isAlive()) {
             // 绘制整个格子的半透明遮罩
             painter.fillRect(col * cellSize_, row * cellSize_ + stripSize_, cellSize_, cellSize_, QColor(128, 128, 128, 160));  // 稍微调整透明度为160
             drawDeathTimer(painter, piece, row, col);

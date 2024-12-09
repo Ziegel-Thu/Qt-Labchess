@@ -13,7 +13,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
-    void drawPiece(QPainter& painter, std::shared_ptr<Piece> piece, int row, int col);
+    void drawPiece(QPainter& painter, std::shared_ptr<Piece> piece, int row, int col, int opacity = 255);
     void drawTopStrip(QPainter& painter);
     void drawBottomStrip(QPainter& painter);
     void drawBoardCell(QPainter& painter, int row, int col);

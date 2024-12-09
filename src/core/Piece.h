@@ -26,9 +26,9 @@ public:
 protected:
     std::string color_;
     std::string type_;
-    int row_; 
-    int col_; 
+    int row_;
+    int col_;
+    bool isTimePiece_;
     bool isAlive_;
     int deathTime_;
-    bool isTimePiece_;
 };

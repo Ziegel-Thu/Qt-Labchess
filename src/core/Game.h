@@ -22,9 +22,8 @@ public:
     bool undoMove();
     void switchPlayer();
     void initializeChessPieces();
-    std::tuple<bool, int, int> selectPiece(int row, int col); // 修改方法声明
-
     const std::shared_ptr<Board> getBoard() const;
+    const std::shared_ptr<Board> getDyingBoard() const;
     const std::vector<std::shared_ptr<Player>> getPlayers() const;
     const std::shared_ptr<Player> getCurrentPlayer() const;
     bool isGameOver() const;
@@ -34,13 +33,13 @@ public:
     void updateDeathTime();
     bool isKingAlive(const std::string &color);
     int getStep();
+    std::vector<std::shared_ptr<Piece>> getDyingPieceList() const;
 
-    // 添加以下两行以定义国王指针
     std::shared_ptr<Piece> redKing_;
     std::shared_ptr<Piece> blueKing_;
 
     std::shared_ptr<Piece> selectedPiece_;
-    bool isPieceSelected_; // 指示是否已选择棋子
+    bool isPieceSelected_; 
     std::vector<std::shared_ptr<Piece> > pieceList_;
     bool selectable_=true;
     void setSelectable(bool selectable);
@@ -56,6 +55,7 @@ signals:
 
 protected:
     std::shared_ptr<Board> board_;
+    std::shared_ptr<Board> dyingBoard_;
     std::shared_ptr<Player> currentPlayer_;
     bool gameOver_;
 
@@ -64,12 +64,15 @@ private:
     int numQueenAdditional_ = 0;
     std::vector<std::vector<std::tuple<std::shared_ptr<Piece>,int,int,int> > > moveHistory_;
     std::vector<std::vector<std::tuple<std::shared_ptr<Piece>,int,int,int> > > viewedMoveHistory_;
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int> > timePiecePosition_;
+    std::vector<std::shared_ptr<Piece>> dyingPieceList_;
     void updateMoveHistory();
     void undoBoard();
     void undoHistory();
     void redoBoard();
     void redoHistory();
+    void updateTimePiecePosition();
 
-    
+
 
 };
