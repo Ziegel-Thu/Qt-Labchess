@@ -5,11 +5,11 @@
 #include <thread>
 #include <chrono>
 #include <QMessageBox>
+#include <QInputDialog>
 Game::Game()
 {
     board_ = std::make_shared<Board>(8, 8);
-    players_.push_back(std::make_shared<Player>("Rui", "Red"));   
-    players_.push_back(std::make_shared<Player>("Beta", "Blue")); 
+    initializePlayers();
     currentPlayer_ = nullptr;
     gameOver_ = false;
     selectedPiece_ = nullptr;
@@ -17,6 +17,14 @@ Game::Game()
     machineNumber1_ = 1;
     machineNumber0_ = 1;
     selectable_ = true;
+}
+
+void Game::initializePlayers() {
+    QString player1Name = QInputDialog::getText(nullptr, "Player Name", "Enter name for Player 1:", QLineEdit::Normal, "Rui");
+    QString player2Name = QInputDialog::getText(nullptr, "Player Name", "Enter name for Player 2:", QLineEdit::Normal, "Beta");
+
+    players_.push_back(std::make_shared<Player>(player1Name.isEmpty() ? "Rui" : player1Name.toStdString(), "Red"));
+    players_.push_back(std::make_shared<Player>(player2Name.isEmpty() ? "Beta" : player2Name.toStdString(), "Blue"));
 }
 
 void Game::initializeChessPieces()

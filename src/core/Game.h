@@ -65,6 +65,7 @@ private:
     std::vector<std::vector<std::tuple<std::shared_ptr<Piece>,int,int> > > viewedMoveHistory_;
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int> > timePiecePosition_;
     std::vector<std::shared_ptr<Piece>> dyingPieceList_;
+    void initializePlayers();
     void updateMoveHistory();
     void undoBoard();
     void undoHistory();
