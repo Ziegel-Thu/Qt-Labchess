@@ -8,7 +8,6 @@
 Game::Game()
 {
     board_ = std::make_shared<Board>(8, 8);
-    dyingBoard_ = std::make_shared<Board>(8, 8);
     players_.push_back(std::make_shared<Player>("Rui", "Red"));   
     players_.push_back(std::make_shared<Player>("Beta", "Blue")); 
     currentPlayer_ = nullptr;
@@ -28,7 +27,6 @@ void Game::initializeChessPieces()
         for (int col = 0; col < 8; ++col)
         {
             board_->setPiece(row, col, nullptr);
-            dyingBoard_->setPiece(row, col, nullptr);
         }
     }
     pieceList_.clear();
@@ -333,14 +331,14 @@ bool Game::isPathClear(int startRow, int startCol, int endRow, int endCol)
 
 void Game::updateMoveHistory()
 {
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp;
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp;
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             if(board_->getPiece(i,j)){
-                temp.push_back(std::make_tuple(board_->getPiece(i,j),i,j,board_->getPiece(i,j)->getDeathTime()));
+                temp.push_back(std::make_tuple(board_->getPiece(i,j),i,j));
             }
             else{
-                temp.push_back(std::make_tuple(nullptr,i,j,-1));
+                temp.push_back(std::make_tuple(nullptr,i,j));
             }
         }
     }
@@ -368,12 +366,12 @@ void Game::pass()
     }
     while (viewedMoveHistory_.size() != 1)
     {
-        std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
+        std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
         viewedMoveHistory_.pop_back();
         moveHistory_.push_back(temp);
     }
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
-    for (const auto& [piece, row, col, deathTime] : temp)
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
+    for (const auto& [piece, row, col] : temp)
     {
         if (piece) {
             piece->setCol(col);
@@ -405,14 +403,12 @@ void Game::confirm()
     QMessageBox::information(nullptr, "提示", "时光逆流成功，请继续");
 }
 void Game::undoBoard(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = moveHistory_.back();
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = moveHistory_.back();
+    handlePieceCrashing(temp);
+}
+void Game::handlePieceCrashing(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp){
     dyingPieceList_.clear();
-    for(auto timePiecePosition:timePiecePosition_){
-        if(std::get<0>(timePiecePosition)->isTimePiece()){
-            board_->setPiece(std::get<1>(timePiecePosition), std::get<2>(timePiecePosition), std::get<0>(timePiecePosition));
-        }
-    }
-    for (const auto& [piece, row, col,deathTime] : temp)
+    for (const auto& [piece, row, col] : temp)
     {
         if(board_->getPiece(row,col)&&board_->getPiece(row,col)->isTimePiece()){
             if(piece){
@@ -422,7 +418,6 @@ void Game::undoBoard(){
                 dyingPieceList_.push_back(piece);
                 piece->setCol(col);
                 piece->setRow(row);
-                dyingBoard_->setPiece(row, col, piece);
             }
         }
         else{
@@ -438,45 +433,16 @@ void Game::undoBoard(){
     }
 }
 void Game::undoHistory(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = moveHistory_.back();
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = moveHistory_.back();
     moveHistory_.pop_back();
     viewedMoveHistory_.push_back(temp);
 }
 void Game::redoHistory(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
     viewedMoveHistory_.pop_back();
     moveHistory_.push_back(temp);
 }
 void Game::redoBoard(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int, int>> temp = viewedMoveHistory_.back();
-    for(auto timePiecePosition:timePiecePosition_){
-        if(std::get<0>(timePiecePosition)->isTimePiece()){
-            board_->setPiece(std::get<1>(timePiecePosition), std::get<2>(timePiecePosition), std::get<0>(timePiecePosition));
-        }
-    }
-    dyingPieceList_.clear();
-    for (const auto& [piece, row, col,deathTime] : temp)
-    {
-        if(board_->getPiece(row,col)&&board_->getPiece(row,col)->isTimePiece()){
-            if(piece){
-                if(piece->isTimePiece()){
-                    continue;
-                }
-                dyingPieceList_.push_back(piece);
-                piece->setCol(col);
-                piece->setRow(row);
-                dyingBoard_->setPiece(row, col, piece);
-            }
-        }
-        else{
-            if(piece){
-                if(piece->isTimePiece()){
-                    continue;
-                }
-                piece->setCol(col);
-                piece->setRow(row);
-            }
-            board_->setPiece(row, col, piece);
-        }
-    }
+    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
+    handlePieceCrashing(temp);
 }

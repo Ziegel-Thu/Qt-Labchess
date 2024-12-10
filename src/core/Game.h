@@ -55,15 +55,14 @@ signals:
 
 protected:
     std::shared_ptr<Board> board_;
-    std::shared_ptr<Board> dyingBoard_;
     std::shared_ptr<Player> currentPlayer_;
     bool gameOver_;
 
 private:
     bool isPathClear(int startRow, int startCol, int endRow, int endCol); // 检查路径是否被阻挡的辅助函数
     int numQueenAdditional_ = 0;
-    std::vector<std::vector<std::tuple<std::shared_ptr<Piece>,int,int,int> > > moveHistory_;
-    std::vector<std::vector<std::tuple<std::shared_ptr<Piece>,int,int,int> > > viewedMoveHistory_;
+    std::vector<std::vector<std::tuple<std::shared_ptr<Piece>,int,int> > > moveHistory_;
+    std::vector<std::vector<std::tuple<std::shared_ptr<Piece>,int,int> > > viewedMoveHistory_;
     std::vector<std::tuple<std::shared_ptr<Piece>, int, int> > timePiecePosition_;
     std::vector<std::shared_ptr<Piece>> dyingPieceList_;
     void updateMoveHistory();
@@ -72,7 +71,7 @@ private:
     void redoBoard();
     void redoHistory();
     void updateTimePiecePosition();
-
+    void handlePieceCrashing(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp);
 
 
 };
