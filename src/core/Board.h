@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../MySTL/my_vector.h"
 #include <memory>
 #include <stack>
 #include <vector>
@@ -25,6 +25,6 @@ public:
 protected:
     int rows_;
     int cols_;
-    std::vector<std::vector<std::shared_ptr<Piece>>> grid_;
-    std::stack<std::pair<int,int>>moveHistory;
+    MyVector<MyVector<std::shared_ptr<Piece>>> grid_;
+    MyVector<std::pair<int,int>>moveHistory;
 };
