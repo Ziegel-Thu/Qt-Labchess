@@ -20,11 +20,23 @@ Game::Game()
 }
 
 void Game::initializePlayers() {
-    QString player1Name = QInputDialog::getText(nullptr, "Player Name", "Enter name for Player 1:", QLineEdit::Normal, "Rui");
-    QString player2Name = QInputDialog::getText(nullptr, "Player Name", "Enter name for Player 2:", QLineEdit::Normal, "Beta");
+    bool ok;
+    QString player1Name = "Rui";
+    QString player2Name = "Beta";
+    /*QInputDialog dialog;
+    dialog.setWindowFlags(dialog.windowFlags() & ~Qt::WindowCloseButtonHint); // 移除关闭按钮
+    dialog.setOption(QInputDialog::NoButtons, false);
+    do {
+        player1Name = QInputDialog::getText(nullptr, "玩家名称", 
+            "请输入玩家1的名称:", QLineEdit::Normal, "Rui", &ok);
+    } while (!ok || player1Name.isEmpty());
+    do {
+        player2Name = QInputDialog::getText(nullptr, "玩家名称", 
+            "请输入玩家2的名称:", QLineEdit::Normal, "Beta", &ok);
+    } while (!ok || player2Name.isEmpty());*/
 
-    players_.push_back(std::make_shared<Player>(player1Name.isEmpty() ? "Rui" : player1Name.toStdString(), "Red"));
-    players_.push_back(std::make_shared<Player>(player2Name.isEmpty() ? "Beta" : player2Name.toStdString(), "Blue"));
+    players_.push_back(std::make_shared<Player>(player1Name.toStdString(), "Red"));
+    players_.push_back(std::make_shared<Player>(player2Name.toStdString(), "Blue"));
 }
 
 void Game::initializeChessPieces()
@@ -75,7 +87,6 @@ void Game::initializeChessPieces()
 
 void Game::start()
 {
-    pieceList_.clear();
     numQueenAdditional_ = 0;
     moveHistory_.clear();
     viewedMoveHistory_.clear();
@@ -92,7 +103,7 @@ void Game::switchPlayer() {currentPlayer_ = (currentPlayer_ == players_[0]) ? pl
 
 const std::shared_ptr<Board> Game::getBoard() const {return board_;}
 
-const std::vector<std::shared_ptr<Player>> Game::getPlayers() const {return players_;}
+const MyVector<std::shared_ptr<Player>> Game::getPlayers() const {return players_;}
 
 const std::shared_ptr<Player> Game::getCurrentPlayer() const {return currentPlayer_;}
 
@@ -102,7 +113,7 @@ int Game::getStep() {return moveHistory_.size();}
 
 void Game::setSelectable(bool selectable) {selectable_ = selectable;}
 
-std::vector<std::shared_ptr<Piece>> Game::getDyingPieceList() const {return dyingPieceList_;}
+MyVector<std::shared_ptr<Piece>> Game::getDyingPieceList() const {return dyingPieceList_;}
 
 bool Game::isValidMove(std::shared_ptr<Piece> selectedPiece, int row, int col, std::shared_ptr<Piece> targetPiece)
 {
@@ -183,16 +194,14 @@ bool Game::undoMove()
     {
         return false;
     }
-    if (moveHistory_.size() ==1)
+    if (moveHistory_.size() <=2)
     {
-        if(getCurrentPlayer()->getName()==players_[1]->getName()){
-            redoBoard();
-            redoHistory();
-        }
         QMessageBox::information(nullptr, "提示", "没有更早步骤");
 
         return false;
     }
+    undoHistory();
+    undoBoard();
     undoHistory();
     undoBoard();
     return true;
@@ -339,7 +348,7 @@ bool Game::isPathClear(int startRow, int startCol, int endRow, int endCol)
 
 void Game::updateMoveHistory()
 {
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp;
+    MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp;
     for(int i=0;i<8;i++){
         for(int j=0;j<8;j++){
             if(board_->getPiece(i,j)){
@@ -374,11 +383,11 @@ void Game::pass()
     }
     while (viewedMoveHistory_.size() != 1)
     {
-        std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
+        MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
         viewedMoveHistory_.pop_back();
         moveHistory_.push_back(temp);
     }
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
+    MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
     for (const auto& [piece, row, col] : temp)
     {
         if (piece) {
@@ -411,10 +420,10 @@ void Game::confirm()
     QMessageBox::information(nullptr, "提示", "时光逆流成功，请继续");
 }
 void Game::undoBoard(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = moveHistory_.back();
+    MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = moveHistory_.back();
     handlePieceCrashing(temp);
 }
-void Game::handlePieceCrashing(std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp){
+void Game::handlePieceCrashing(MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp){
     dyingPieceList_.clear();
     for (const auto& [piece, row, col] : temp)
     {
@@ -441,16 +450,17 @@ void Game::handlePieceCrashing(std::vector<std::tuple<std::shared_ptr<Piece>, in
     }
 }
 void Game::undoHistory(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = moveHistory_.back();
+    MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = moveHistory_.back();
     moveHistory_.pop_back();
     viewedMoveHistory_.push_back(temp);
 }
 void Game::redoHistory(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
+    MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
     viewedMoveHistory_.pop_back();
     moveHistory_.push_back(temp);
 }
 void Game::redoBoard(){
-    std::vector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
+    MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = viewedMoveHistory_.back();
     handlePieceCrashing(temp);
 }
+

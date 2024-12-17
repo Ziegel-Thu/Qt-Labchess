@@ -70,6 +70,132 @@
             "args": [
                 "clean" // 清理构建
             ]
+        },
+        {
+            "label": "mkdir-tests",
+            "type": "shell",
+            "command": "mkdir src/tests/test-build",
+            "group": "build"
+        },
+        {
+            "label": "Build Tests",
+            "type": "shell",
+            "command": "cd src/tests/test-build && qmake ../chess-tests.pro && make",
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "Run Tests",
+            "type": "shell",
+            "command": "./src/tests/test-build/chess-tests",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "dependsOn": ["Build Tests"]
+        },
+        {
+            "label": "Run Tests (Verbose)",
+            "type": "shell",
+            "command": "./src/tests/test-build/chess-tests -v2",
+            "group": "test",
+            "dependsOn": ["Build Tests"]
+        },
+        {
+            "label": "Clean Tests",
+            "type": "shell",
+            "command": "cd src/tests/test-build && make clean",
+            "group": "clean"
+        },
+        {
+            "label": "Generate Coverage",
+            "type": "shell",
+            "command": "xcrun",
+            "args": [
+                "llvm-profdata",
+                "merge",
+                "-sparse",
+                "default.profraw",
+                "-o",
+                "coverage.profdata"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/tests/test-build"
+            },
+            "group": "test",
+            "dependsOn": ["Run Tests"]
+        },
+        {
+            "label": "Generate Core Coverage Report",
+            "type": "shell",
+            "command": "xcrun",
+            "args": [
+                "llvm-cov",
+                "report",
+                "./chess-tests",
+                "-instr-profile=coverage.profdata",
+                "../core/Board.cpp",
+                "../core/Board.h",
+                "../core/Game.cpp",
+                "../core/Game.h",
+                "../core/Piece.cpp",
+                "../core/Piece.h",
+                "../core/Player.cpp",
+                "../core/Player.h",
+                "--show-functions",
+                ">",
+                "core_coverage.txt"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/tests/test-build"
+            },
+            "group": "test",
+            "dependsOn": ["Generate Coverage"]
+        },
+        {
+            "label": "Generate Detailed Core Coverage",
+            "type": "shell",
+            "command": "xcrun",
+            "args": [
+                "llvm-cov",
+                "show",
+                "./chess-tests",
+                "-instr-profile=coverage.profdata",
+                "-stats",
+                "-show-line-counts-or-regions",
+                "-show-functions",
+                "../core/Board.cpp",
+                "../core/Board.h",
+                "../core/Game.cpp",
+                "../core/Game.h",
+                "../core/Piece.cpp",
+                "../core/Piece.h",
+                "../core/Player.cpp",
+                "../core/Player.h",
+                ">",
+                "core_coverage_detailed.txt"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/tests/test-build"
+            },
+            "group": "test",
+            "dependsOn": ["Generate Coverage"]
+        },
+        {
+            "label": "Full Core Coverage Report",
+            "dependsOn": [
+                "Run Tests",
+                "Generate Coverage",
+                "Generate Core Coverage Report",
+                "Generate Detailed Core Coverage"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }

@@ -1,7 +1,7 @@
 #include "Board.h"
 #include "Piece.h"
 Board::Board(int rows, int cols) : rows_(rows), cols_(cols) {
-    grid_.resize(rows_, std::vector<std::shared_ptr<Piece>>(cols_, nullptr));
+    grid_.resize(rows_, MyVector<std::shared_ptr<Piece>>(cols_, nullptr));
 }
 
 void Board::initialize() {

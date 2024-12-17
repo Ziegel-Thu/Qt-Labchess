@@ -108,10 +108,6 @@ void MainWindow::onUndoRequested() {
         playerInfoWidget_->update();
         boardWidget_->update();
     }
-    if(game_->undoMove()){
-        playerInfoWidget_->update();
-        boardWidget_->update();
-    }
     updateTimeMachineButton();
 }
 
