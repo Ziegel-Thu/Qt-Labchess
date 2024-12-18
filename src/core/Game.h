@@ -1,5 +1,6 @@
 #pragma once
 #include "../MySTL/my_vector.h"
+#include "../MySTL/my_new_deque.h"
 #include <memory>
 #include <tuple>
 #include <QObject>
