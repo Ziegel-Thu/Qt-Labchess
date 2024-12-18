@@ -23,7 +23,7 @@ qt-labchess/
 │   └── main.cpp
 │
 │── tests/
-│   ├── tst_game.cpp
+│   ├── test_game.cpp
 │   └── chess-test.pro
 |
 ├── qt-labchess.pro

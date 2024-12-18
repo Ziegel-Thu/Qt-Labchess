@@ -9,8 +9,7 @@ class Board {
 public:
     Board(int rows, int cols);
     ~Board() = default;
-
-    void initialize();
+    
     bool setPiece(int row, int col, std::shared_ptr<Piece> piece);
     bool isValidPosition(int row, int col) const;
     int getRows() const { return rows_; }
