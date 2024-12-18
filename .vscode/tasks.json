@@ -117,12 +117,12 @@
                 "llvm-profdata",
                 "merge",
                 "-sparse",
-                "default.profraw",
+                "${workspaceFolder}/default.profraw",
                 "-o",
-                "coverage.profdata"
+                "${workspaceFolder}/src/tests/test-build/coverage.profdata"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/src/tests/test-build"
+                "cwd": "${workspaceFolder}"
             },
             "group": "test",
             "dependsOn": ["Run Tests"]
@@ -135,18 +135,18 @@
                 "llvm-cov",
                 "report",
                 "./chess-tests",
-                "-instr-profile=coverage.profdata",
-                "../core/Board.cpp",
-                "../core/Board.h",
-                "../core/Game.cpp",
-                "../core/Game.h",
-                "../core/Piece.cpp",
-                "../core/Piece.h",
-                "../core/Player.cpp",
-                "../core/Player.h",
+                "-instr-profile=${workspaceFolder}/src/tests/test-build/coverage.profdata",
+                "${workspaceFolder}/src/core/Board.cpp",
+                "${workspaceFolder}/src/core/Board.h",
+                "${workspaceFolder}/src/core/Game.cpp",
+                "${workspaceFolder}/src/core/Game.h",
+                "${workspaceFolder}/src/core/Piece.cpp",
+                "${workspaceFolder}/src/core/Piece.h",
+                "${workspaceFolder}/src/core/Player.cpp",
+                "${workspaceFolder}/src/core/Player.h",
                 "--show-functions",
                 ">",
-                "core_coverage.txt"
+                "${workspaceFolder}/core_coverage.txt"
             ],
             "options": {
                 "cwd": "${workspaceFolder}/src/tests/test-build"
@@ -162,20 +162,21 @@
                 "llvm-cov",
                 "show",
                 "./chess-tests",
-                "-instr-profile=coverage.profdata",
-                "-stats",
-                "-show-line-counts-or-regions",
-                "-show-functions",
-                "../core/Board.cpp",
-                "../core/Board.h",
-                "../core/Game.cpp",
-                "../core/Game.h",
-                "../core/Piece.cpp",
-                "../core/Piece.h",
-                "../core/Player.cpp",
-                "../core/Player.h",
+                "-instr-profile=${workspaceFolder}/src/tests/test-build/coverage.profdata",
+                "--show-regions",
+                "--show-line-counts",
+                "--show-instantiations",
+                "-format=html",
+                "${workspaceFolder}/src/core/Board.cpp",
+                "${workspaceFolder}/src/core/Board.h",
+                "${workspaceFolder}/src/core/Game.cpp",
+                "${workspaceFolder}/src/core/Game.h",
+                "${workspaceFolder}/src/core/Piece.cpp",
+                "${workspaceFolder}/src/core/Piece.h",
+                "${workspaceFolder}/src/core/Player.cpp",
+                "${workspaceFolder}/src/core/Player.h",
                 ">",
-                "core_coverage_detailed.txt"
+                "${workspaceFolder}/core_coverage_detailed.html"
             ],
             "options": {
                 "cwd": "${workspaceFolder}/src/tests/test-build"

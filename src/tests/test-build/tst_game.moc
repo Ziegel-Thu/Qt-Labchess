@@ -41,14 +41,20 @@ constexpr auto qt_meta_stringdata_CLASSTestGameENDCLASS = QtMocHelpers::stringDa
     "cleanup",
     "cleanupTestCase",
     "testInitialBoardState",
+    "testSetInvalidPiece",
+    "testGetInvalidPiece",
     "testPawnMovement",
     "testUndoRedoMove",
     "testKingMovement",
     "testGameOver",
     "testRookMovement",
+    "testKnightMovement",
+    "testBishopMovement",
+    "testQueenMovement",
     "testTimeMachineSequence",
     "testTimePieceCollision",
     "testPassFunction",
+    "testPass2",
     "testQueenPromotion",
     "testInvalidTimeMachineOperations"
 );
@@ -63,7 +69,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSTestGameENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,23 +77,35 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSTestGameENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,  104,    2, 0x08,    1 /* Private */,
-       3,    0,  105,    2, 0x08,    2 /* Private */,
-       4,    0,  106,    2, 0x08,    3 /* Private */,
-       5,    0,  107,    2, 0x08,    4 /* Private */,
-       6,    0,  108,    2, 0x08,    5 /* Private */,
-       7,    0,  109,    2, 0x08,    6 /* Private */,
-       8,    0,  110,    2, 0x08,    7 /* Private */,
-       9,    0,  111,    2, 0x08,    8 /* Private */,
-      10,    0,  112,    2, 0x08,    9 /* Private */,
-      11,    0,  113,    2, 0x08,   10 /* Private */,
-      12,    0,  114,    2, 0x08,   11 /* Private */,
-      13,    0,  115,    2, 0x08,   12 /* Private */,
-      14,    0,  116,    2, 0x08,   13 /* Private */,
-      15,    0,  117,    2, 0x08,   14 /* Private */,
-      16,    0,  118,    2, 0x08,   15 /* Private */,
+       1,    0,  140,    2, 0x08,    1 /* Private */,
+       3,    0,  141,    2, 0x08,    2 /* Private */,
+       4,    0,  142,    2, 0x08,    3 /* Private */,
+       5,    0,  143,    2, 0x08,    4 /* Private */,
+       6,    0,  144,    2, 0x08,    5 /* Private */,
+       7,    0,  145,    2, 0x08,    6 /* Private */,
+       8,    0,  146,    2, 0x08,    7 /* Private */,
+       9,    0,  147,    2, 0x08,    8 /* Private */,
+      10,    0,  148,    2, 0x08,    9 /* Private */,
+      11,    0,  149,    2, 0x08,   10 /* Private */,
+      12,    0,  150,    2, 0x08,   11 /* Private */,
+      13,    0,  151,    2, 0x08,   12 /* Private */,
+      14,    0,  152,    2, 0x08,   13 /* Private */,
+      15,    0,  153,    2, 0x08,   14 /* Private */,
+      16,    0,  154,    2, 0x08,   15 /* Private */,
+      17,    0,  155,    2, 0x08,   16 /* Private */,
+      18,    0,  156,    2, 0x08,   17 /* Private */,
+      19,    0,  157,    2, 0x08,   18 /* Private */,
+      20,    0,  158,    2, 0x08,   19 /* Private */,
+      21,    0,  159,    2, 0x08,   20 /* Private */,
+      22,    0,  160,    2, 0x08,   21 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -126,6 +144,10 @@ Q_CONSTINIT const QMetaObject TestGame::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testInitialBoardState'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'testSetInvalidPiece'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'testGetInvalidPiece'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testPawnMovement'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testUndoRedoMove'
@@ -136,11 +158,19 @@ Q_CONSTINIT const QMetaObject TestGame::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testRookMovement'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'testKnightMovement'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'testBishopMovement'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'testQueenMovement'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testTimeMachineSequence'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testTimePieceCollision'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testPassFunction'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'testPass2'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'testQueenPromotion'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -161,16 +191,22 @@ void TestGame::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 2: _t->cleanup(); break;
         case 3: _t->cleanupTestCase(); break;
         case 4: _t->testInitialBoardState(); break;
-        case 5: _t->testPawnMovement(); break;
-        case 6: _t->testUndoRedoMove(); break;
-        case 7: _t->testKingMovement(); break;
-        case 8: _t->testGameOver(); break;
-        case 9: _t->testRookMovement(); break;
-        case 10: _t->testTimeMachineSequence(); break;
-        case 11: _t->testTimePieceCollision(); break;
-        case 12: _t->testPassFunction(); break;
-        case 13: _t->testQueenPromotion(); break;
-        case 14: _t->testInvalidTimeMachineOperations(); break;
+        case 5: _t->testSetInvalidPiece(); break;
+        case 6: _t->testGetInvalidPiece(); break;
+        case 7: _t->testPawnMovement(); break;
+        case 8: _t->testUndoRedoMove(); break;
+        case 9: _t->testKingMovement(); break;
+        case 10: _t->testGameOver(); break;
+        case 11: _t->testRookMovement(); break;
+        case 12: _t->testKnightMovement(); break;
+        case 13: _t->testBishopMovement(); break;
+        case 14: _t->testQueenMovement(); break;
+        case 15: _t->testTimeMachineSequence(); break;
+        case 16: _t->testTimePieceCollision(); break;
+        case 17: _t->testPassFunction(); break;
+        case 18: _t->testPass2(); break;
+        case 19: _t->testQueenPromotion(); break;
+        case 20: _t->testInvalidTimeMachineOperations(); break;
         default: ;
         }
     }
@@ -196,13 +232,13 @@ int TestGame::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 21;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 21)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 15;
+        _id -= 21;
     }
     return _id;
 }
