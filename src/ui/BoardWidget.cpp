@@ -40,9 +40,13 @@ void BoardWidget::drawTopStrip(QPainter& painter) {
 
 void BoardWidget::drawBoardCell(QPainter& painter, int row, int col) {
     QColor cellColor = (row + col) % 2 == 1 ? Qt::gray : Qt::white;
-    if (game_->isPieceSelected_ && 
-        game_->getBoard()->getPiece(row, col) == game_->selectedPiece_) {
-        cellColor = Qt::yellow;
+    if (game_->isPieceSelected_){
+        if(game_->getBoard()->getPiece(row, col) == game_->selectedPiece_) {
+            cellColor = Qt::yellow;
+        }
+        if(game_->isValidMove(game_->selectedPiece_,row,col,game_->getBoard()->getPiece(row,col))){
+            cellColor = Qt::green;
+        }
     }
     painter.fillRect(col * cellSize_, row * cellSize_ + stripSize_, 
                     cellSize_, cellSize_, cellColor);
