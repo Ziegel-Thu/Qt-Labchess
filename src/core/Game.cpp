@@ -20,23 +20,39 @@ Game::Game()
 }
 
 void Game::initializePlayers() {
-    bool ok;
-    QString player1Name = "Rui";
-    QString player2Name = "Beta";
-    /*QInputDialog dialog;
-    dialog.setWindowFlags(dialog.windowFlags() & ~Qt::WindowCloseButtonHint); // 移除关闭按钮
-    dialog.setOption(QInputDialog::NoButtons, false);
-    do {
-        player1Name = QInputDialog::getText(nullptr, "玩家名称", 
-            "请输入玩家1的名称:", QLineEdit::Normal, "Rui", &ok);
-    } while (!ok || player1Name.isEmpty());
-    do {
-        player2Name = QInputDialog::getText(nullptr, "玩家名称", 
-            "请输入玩家2的名称:", QLineEdit::Normal, "Beta", &ok);
-    } while (!ok || player2Name.isEmpty());*/
+    QString player1Name = "Player1";
+    QString player2Name = "Player2";
+
 
     players_.push_back(std::make_shared<Player>(player1Name.toStdString(), "Red"));
     players_.push_back(std::make_shared<Player>(player2Name.toStdString(), "Blue"));
+}
+
+void Game::inputName(){
+
+    while(true){
+        QInputDialog dialog;
+        bool ok;
+        QString player1Name = dialog.getText(nullptr, "玩家名称", "请输入玩家1的名称:", QLineEdit::Normal, "Player1", &ok);
+        if(ok){
+            players_[0]->setName(player1Name.toStdString());
+        }
+        QString player2Name = dialog.getText(nullptr, "玩家名称", "请输入玩家2的名称:", QLineEdit::Normal, "Player2", &ok);
+        if(ok){
+            players_[1]->setName(player2Name.toStdString());
+        }
+        if(player1Name.isEmpty()||player2Name.isEmpty()){
+            QMessageBox::information(nullptr, "提示", "玩家名称不能为空");
+        }
+        else{
+            if(player1Name==player2Name){
+                QMessageBox::information(nullptr, "提示", "玩家名称不能相同");
+            }
+            else{
+                break;
+            }
+        }
+    }
 }
 
 void Game::initializeChessPieces()
@@ -106,6 +122,8 @@ const std::shared_ptr<Board> Game::getBoard() const {return board_;}
 const MyVector<std::shared_ptr<Player>> Game::getPlayers() const {return players_;}
 
 const std::shared_ptr<Player> Game::getCurrentPlayer() const {return currentPlayer_;}
+
+void Game::setSelectable(bool selectable) {selectable_ = selectable;}
 
 bool Game::isGameOver() const {return gameOver_;}
 
@@ -407,7 +425,7 @@ void Game::confirm()
     for(auto piece:dyingPieceList_){
         piece->setAlive(false, getStep() - 1);
     }
-    if (getCurrentPlayer()->getName() == players_[1]->getName())
+    if (getCurrentPlayer()->getColor() == players_[1]->getColor())
     {
         machineNumber1_--;
     }

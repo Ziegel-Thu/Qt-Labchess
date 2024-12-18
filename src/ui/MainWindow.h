@@ -28,6 +28,7 @@ private:
 
 private slots:
     void onGameStart();
+    void onInputNameRequested();
     void onGameEnd();
     void onUndoRequested();
     void onTimemachineRequested();

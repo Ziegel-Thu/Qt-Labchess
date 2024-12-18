@@ -21,6 +21,21 @@ qt-labchess/
 │   │   └──   OperationWidget.cpp
 │   │
 │   └── main.cpp
+│
+│── tests/
+│   ├── tst_game.cpp
+│   └── chess-test.pro
 |
 ├── qt-labchess.pro
+|
+├── README.md
+|
+├── Detailed_Report.md
+|
+├── core_coverage.txt
+|
+├── core_coverage_detailed.html
+|
+├── structure.txt
+|
 └── README.md

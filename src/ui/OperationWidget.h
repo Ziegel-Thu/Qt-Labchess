@@ -14,6 +14,7 @@ public:
 
     void showUndoRedoButtons(bool show);
     void showPassConfirmButtons(bool show);
+    void showInputNameButtons(bool show);
 signals:
     void startGameRequested();
     void undoRequested();
@@ -21,9 +22,11 @@ signals:
     void redoRequested();
     void passRequested();
     void confirmRequested();
+    void inputNameRequested();
 private:
     std::shared_ptr<Game> game_;
     std::shared_ptr<QPushButton> startButton_;
+    std::shared_ptr<QPushButton> inputNameButton_;
     std::shared_ptr<QPushButton> undoButton_;
     std::shared_ptr<QPushButton> timemachineButton1_;
     std::shared_ptr<QPushButton> timemachineButton0_;

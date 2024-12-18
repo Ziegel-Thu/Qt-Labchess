@@ -6,7 +6,8 @@
 OperationWidget::OperationWidget(QWidget *parent, std::shared_ptr<Game> game) : QWidget(parent), game_(game) {
     auto layout = new QVBoxLayout(this);
 
-    startButton_ = std::make_shared<QPushButton>("开始游戏", this);
+    startButton_ = std::make_shared<QPushButton>("开始新游戏", this);
+    inputNameButton_ = std::make_shared<QPushButton>("自定义名字", this);
     timemachineButton1_ = std::make_shared<QPushButton>(QString::fromStdString(game_->players_[1]->getName())+"的时光机", this);
     timemachineButton0_ = std::make_shared<QPushButton>(QString::fromStdString(game_->players_[0]->getName())+"的时光机", this);
     undoButton_ = std::make_shared<QPushButton>("回退", this);
@@ -19,6 +20,7 @@ OperationWidget::OperationWidget(QWidget *parent, std::shared_ptr<Game> game) : 
     redoButton_->setVisible(false);
 
     layout->addWidget(startButton_.get());
+    layout->addWidget(inputNameButton_.get());
     layout->addWidget(timemachineButton1_.get());
     layout->addWidget(timemachineButton0_.get());
     timemachineButton1_->setVisible(false);
@@ -30,6 +32,7 @@ OperationWidget::OperationWidget(QWidget *parent, std::shared_ptr<Game> game) : 
     passButton_->setVisible(false);
     confirmButton_->setVisible(false);
     connect(startButton_.get(), &QPushButton::clicked, this, &OperationWidget::startGameRequested);
+    connect(inputNameButton_.get(), &QPushButton::clicked, this, &OperationWidget::inputNameRequested);
     connect(undoButton_.get(), &QPushButton::clicked, this, &OperationWidget::undoRequested);
     connect(timemachineButton1_.get(), &QPushButton::clicked, this, &OperationWidget::timemachineRequested);
     connect(timemachineButton0_.get(), &QPushButton::clicked, this, &OperationWidget::timemachineRequested);
@@ -53,4 +56,7 @@ void OperationWidget::showUndoRedoButtons(bool show) {
 void OperationWidget::showPassConfirmButtons(bool show){
     passButton_->setVisible(show);
     confirmButton_->setVisible(show);
+}
+void OperationWidget::showInputNameButtons(bool show){
+    inputNameButton_->setVisible(show);
 }

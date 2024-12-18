@@ -44,6 +44,7 @@ void MainWindow::setupUi() {
 void MainWindow::connectSignals() {
 
     connect(operationWidget_.get(), &OperationWidget::startGameRequested, this, &MainWindow::onGameStart);
+    connect(operationWidget_.get(), &OperationWidget::inputNameRequested, this, &MainWindow::onInputNameRequested);
     connect(operationWidget_.get(), &OperationWidget::undoRequested, this, &MainWindow::onUndoRequested);
     connect(operationWidget_.get(), &OperationWidget::timemachineRequested, this, &MainWindow::onTimemachineRequested);
     connect(operationWidget_.get(), &OperationWidget::redoRequested, this, &MainWindow::onRedoRequested);
@@ -60,6 +61,12 @@ void MainWindow::onGameStart() {
     operationWidget_->showUndoRedoButtons(false);
     operationWidget_->showPassConfirmButtons(false);
     updateTimeMachineButton(); // 在游戏开始时更新时光机按钮
+}
+
+void MainWindow::onInputNameRequested(){
+    game_->inputName();
+    playerInfoWidget_->update();
+    operationWidget_->showInputNameButtons(false);
 }
 
 void MainWindow::onGameEnd() {
