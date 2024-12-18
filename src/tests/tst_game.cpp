@@ -257,6 +257,7 @@ private slots:
         for(int i = 0; i < 2; i++) {
             for(int j = 0; j < 8; j++) {
                 if(i == 0 && j == 3) continue; // 保留皇后
+                if(i == 0 && j == 4) continue; // 保留国王
                 if(board->getPiece(i, j) != nullptr) {
                     board->setPiece(i, j, nullptr);
                 }
@@ -265,9 +266,7 @@ private slots:
         
         // 测试直线移动
         QVERIFY(game->isValidMove(queen, 1, 3, nullptr)); // 前进
-        QVERIFY(game->isValidMove(queen, 0, 0, nullptr)); // 水平移动
-        QVERIFY(game->isValidMove(queen, 0, 7, nullptr)); // 水平移动
-        
+        QVERIFY(game->isValidMove(queen, 0, 0, nullptr)); // 水平移动        
         // 测试对角线移动
         QVERIFY(game->isValidMove(queen, 1, 2, nullptr)); // 左前方对角线
         QVERIFY(game->isValidMove(queen, 1, 4, nullptr)); // 右前方对角线

@@ -112,8 +112,75 @@ press函数被嵌套在一个while循环中，循环条件是true，表示在非
 
 会在必要的地方检测王的存活情况，如果检测到王死亡，则游戏结束，并让PlayerInfoWidget显示游戏结束，公布获胜玩家。
 
+## 4.类图
 
+classDiagram
+    class Game {
+        -board_: Board
+        -players_: MyVector<Player>
+        -currentPlayer_: Player
+        -gameOver_: bool
+        -selectedPiece_: Piece
+        -isPieceSelected_: bool
+        -selectable_: bool
+        -moveHistory_: MyVector<MyVector<tuple>>
+        -viewedMoveHistory_: MyVector<MyVector<tuple>>
+        +Game()
+        +start()
+        +end()
+        +undoMove(): bool
+        +redoMove(): bool
+        +press(row: int, col: int): bool
+        +switchPlayer()
+        +isGameOver(): bool
+        +getBoard(): Board
+        +getCurrentPlayer(): Player
+    }
 
+    class Board {
+        -rows_: int
+        -cols_: int
+        -grid_: MyVector<MyVector<Piece>>
+        +Board(rows: int, cols: int)
+        +initialize()
+        +setPiece(row: int, col: int, piece: Piece): bool
+        +getPiece(row: int, col: int): Piece
+        +isValidPosition(row: int, col: int): bool
+        +getRows(): int
+        +getCols(): int
+    }
+
+    class Piece {
+        -color_: string
+        -type_: string
+        -row_: int
+        -col_: int
+        -isTimePiece_: bool
+        -isAlive_: bool
+        -deathTime_: int
+        +Piece(color: string, type: string, isTimePiece: bool, row: int, col: int)
+        +getColor(): string
+        +getType(): string
+        +isAlive(): bool
+        +setAlive(isAlive: bool, deathTime: int)
+        +getRow(): int
+        +getCol(): int
+    }
+
+    class Player {
+        -name_: string
+        -color_: string
+        +Player(name: string, color: string)
+        +getName(): string
+        +getColor(): string
+        +setName(name: string)
+        +setColor(color: string)
+    }
+
+    Game "1" *-- "1" Board
+    Game "1" *-- "2" Player
+    Game "1" *-- "*" Piece
+    
 
 
 
