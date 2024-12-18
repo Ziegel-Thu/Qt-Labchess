@@ -42,9 +42,9 @@ void Game::initializePlayers() {
 void Game::initializeChessPieces()
 {
     gameOver_ = false;
-    for (int row = 0; row < 8; ++row)
+    for (int row = 0; row < board_->getRows(); ++row)
     {
-        for (int col = 0; col < 8; ++col)
+        for (int col = 0; col < board_->getCols(); ++col)
         {
             board_->setPiece(row, col, nullptr);
         }
@@ -59,7 +59,7 @@ void Game::initializeChessPieces()
     pieceList_.push_back(std::make_shared<Piece>("Red", "Bishop", false, 0, 2, true, -1));
     pieceList_.push_back(std::make_shared<Piece>("Red", "Bishop", true, 0, 5, true, -1));
     pieceList_.push_back(std::make_shared<Piece>("Red", "Queen", true, 0, 3, true, -1));
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < board_->getCols(); i++)
     {
         pieceList_.push_back(std::make_shared<Piece>("Red", "Pawn", i % 2 == 0, 1, i, true, -1));
     }
@@ -72,7 +72,7 @@ void Game::initializeChessPieces()
     pieceList_.push_back(std::make_shared<Piece>("Blue", "Bishop", false, 7, 2, true, -1));
     pieceList_.push_back(std::make_shared<Piece>("Blue", "Bishop", true, 7, 5, true, -1));
     pieceList_.push_back(std::make_shared<Piece>("Blue", "Queen", true, 7, 3, true, -1));
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < board_->getCols(); i++)
     {
         pieceList_.push_back(std::make_shared<Piece>("Blue", "Pawn", i % 2 == 0, 6, i, true, -1));
     }
@@ -110,8 +110,6 @@ const std::shared_ptr<Player> Game::getCurrentPlayer() const {return currentPlay
 bool Game::isGameOver() const {return gameOver_;}
 
 int Game::getStep() {return moveHistory_.size();}
-
-void Game::setSelectable(bool selectable) {selectable_ = selectable;}
 
 MyVector<std::shared_ptr<Piece>> Game::getDyingPieceList() const {return dyingPieceList_;}
 
@@ -297,9 +295,9 @@ bool Game::press(int row, int col)
 
 void Game::updateDeathTime()
 {
-    for (int row = 0; row < 8; ++row)
+    for (int row = 0; row < board_->getRows(); ++row)
     {
-        for (int col = 0; col < 8; ++col)
+        for (int col = 0; col < board_->getCols(); ++col)
         {
             auto piece = board_->getPiece(row, col);
             if (piece && piece->getDeathTime() > 0)
@@ -349,8 +347,8 @@ bool Game::isPathClear(int startRow, int startCol, int endRow, int endCol)
 void Game::updateMoveHistory()
 {
     MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp;
-    for(int i=0;i<8;i++){
-        for(int j=0;j<8;j++){
+    for(int i=0;i<board_->getRows();i++){
+        for(int j=0;j<board_->getCols();j++){
             if(board_->getPiece(i,j)){
                 temp.push_back(std::make_tuple(board_->getPiece(i,j),i,j));
             }
@@ -365,8 +363,8 @@ void Game::updateMoveHistory()
 void Game::updateTimePiecePosition()
 {
     timePiecePosition_.clear();
-    for(int i=0;i<8;i++){
-        for(int j=0;j<8;j++){
+    for(int i=0;i<board_->getRows();i++){
+        for(int j=0;j<board_->getCols();j++){
             if(board_->getPiece(i,j)&&board_->getPiece(i,j)->isTimePiece()){
                 timePiecePosition_.push_back(std::make_tuple(board_->getPiece(i,j),i,j));
             }

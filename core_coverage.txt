@@ -1,0 +1,106 @@
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Board.cpp':
+Name                                                Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+-------------------------------------------------------------------------------------------------------------------------------
+_ZN5BoardC2Eii                                            1       0 100.00%         3       0 100.00%         0       0   0.00%
+_ZN5Board10initializeEv                                   2       2   0.00%         5       5   0.00%         2       2   0.00%
+_ZN5Board8setPieceEiiNSt3__110shared_ptrI5PieceEE         4       0 100.00%         7       0 100.00%         2       0 100.00%
+_ZNK5Board15isValidPositionEii                            7       0 100.00%         3       0 100.00%         8       3  62.50%
+_ZNK5Board8getPieceEii                                    4       0 100.00%         6       0 100.00%         2       0 100.00%
+-------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                    18       2  88.89%        24       5  79.17%        14       5  64.29%
+
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Board.h':
+Name                                                Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+-------------------------------------------------------------------------------------------------------------------------------
+_ZNK5Board7getRowsEv                                      1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK5Board7getColsEv                                      1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN5BoardD2Ev                                             1       0 100.00%         1       0 100.00%         0       0   0.00%
+-------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                     3       0 100.00%         3       0 100.00%         0       0   0.00%
+
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Game.cpp':
+Name                                                                                       Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_ZN4GameC2Ev                                                                                     1       0 100.00%        11       0 100.00%         0       0   0.00%
+_ZN4Game17initializePlayersEv                                                                    1       0 100.00%         7       0 100.00%         0       0   0.00%
+_ZN4Game21initializeChessPiecesEv                                                               14       0 100.00%        43       0 100.00%        10       0 100.00%
+_ZN4Game5startEv                                                                                 1       0 100.00%         9       0 100.00%         0       0   0.00%
+_ZN4Game3endEv                                                                                   1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN4Game12switchPlayerEv                                                                         4       0 100.00%         1       0 100.00%         2       0 100.00%
+_ZNK4Game8getBoardEv                                                                             1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK4Game10getPlayersEv                                                                          1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZNK4Game16getCurrentPlayerEv                                                                    1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK4Game10isGameOverEv                                                                          1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN4Game7getStepEv                                                                               1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK4Game17getDyingPieceListEv                                                                   1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZN4Game11isValidMoveENSt3__110shared_ptrI5PieceEEiiS3_                                         78       2  97.44%        63       0 100.00%        76      13  82.89%
+_ZN4Game8undoMoveEv                                                                              7       0 100.00%        16       0 100.00%         4       0 100.00%
+_ZN4Game8redoMoveEv                                                                              7       0 100.00%        16       0 100.00%         4       0 100.00%
+_ZN4Game5pressEii                                                                               41       2  95.12%        64       4  93.75%        42       9  78.57%
+_ZN4Game15updateDeathTimeEv                                                                     13       0 100.00%        17       0 100.00%        10       1  90.00%
+_ZN4Game11isKingAliveERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE         5       1  80.00%        11       1  90.91%         2       0 100.00%
+_ZN4Game11isPathClearEiiii                                                                      21       2  90.48%        16       3  81.25%        14       2  85.71%
+_ZN4Game17updateMoveHistoryEv                                                                   10       0 100.00%        14       0 100.00%         6       0 100.00%
+_ZN4Game23updateTimePiecePositionEv                                                             11       0 100.00%        10       0 100.00%        10       0 100.00%
+_ZN4Game4passEv                                                                                 10       0 100.00%        27       0 100.00%         8       0 100.00%
+_ZN4Game7confirmEv                                                                               5       2  60.00%        16       5  68.75%         4       2  50.00%
+_ZN4Game9undoBoardEv                                                                             1       0 100.00%         4       0 100.00%         0       0   0.00%
+_ZN4Game19handlePieceCrashingE8MyVectorINSt3__15tupleIJNS1_10shared_ptrI5PieceEEiiEEEE          18       1  94.44%        26       4  84.62%        16       1  93.75%
+_ZN4Game11undoHistoryEv                                                                          1       0 100.00%         5       0 100.00%         0       0   0.00%
+_ZN4Game11redoHistoryEv                                                                          1       0 100.00%         5       0 100.00%         0       0   0.00%
+_ZN4Game9redoBoardEv                                                                             1       0 100.00%         4       0 100.00%         0       0   0.00%
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                          258      12  95.35%       392      19  95.15%       208      28  86.54%
+
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Game.h':
+Name                                                                                       Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_ZN4GameD2Ev                                                                                     1       0 100.00%         1       0 100.00%         0       0   0.00%
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                            1       0 100.00%         1       0 100.00%         0       0   0.00%
+
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Piece.cpp':
+Name                                                                                       Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_ZN5PieceC2ERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEES8_biibi           1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN5Piece8setColorERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE            1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZN5Piece12setTimePieceEb                                                                        1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZNK5Piece8getColorEv                                                                            1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK5Piece7getTypeEv                                                                             1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN5Piece6setRowEi                                                                               1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN5Piece6setColEi                                                                               1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK5Piece6getRowEv                                                                              1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK5Piece6getColEv                                                                              1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN5Piece8setAliveEbi                                                                            1       0 100.00%         4       0 100.00%         0       0   0.00%
+_ZNK5Piece7isAliveEv                                                                             1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN5Piece12setDeathTimeEi                                                                        1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZNK5Piece12getDeathTimeEv                                                                       1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN5Piece7setTypeERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE             1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZNK5Piece11isTimePieceEv                                                                        1       0 100.00%         1       0 100.00%         0       0   0.00%
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                           15       4  73.33%        18       4  77.78%         0       0   0.00%
+
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Piece.h':
+Name                                                                                       Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_ZN5PieceD2Ev                                                                                    1       0 100.00%         1       0 100.00%         0       0   0.00%
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                            1       0 100.00%         1       0 100.00%         0       0   0.00%
+
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Player.cpp':
+Name                                                                                       Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_ZN6PlayerC2ERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEES8_               1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZN6Player7setNameERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE            1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZN6Player8setColorERKNSt3__112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE           1       1   0.00%         1       1   0.00%         0       0   0.00%
+_ZNK6Player7getNameEv                                                                            1       0 100.00%         1       0 100.00%         0       0   0.00%
+_ZNK6Player8getColorEv                                                                           1       0 100.00%         1       0 100.00%         0       0   0.00%
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                            5       2  60.00%         5       2  60.00%         0       0   0.00%
+
+File '/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core/Player.h':
+Name                                                                                       Regions    Miss   Cover     Lines    Miss   Cover  Branches    Miss   Cover
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+_ZN6PlayerD2Ev                                                                                   1       0 100.00%         1       0 100.00%         0       0   0.00%
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                            1       0 100.00%         1       0 100.00%         0       0   0.00%

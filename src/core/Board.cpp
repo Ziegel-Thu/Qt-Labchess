@@ -23,22 +23,7 @@ bool Board::isValidPosition(int row, int col) const {
 }
 
 
-bool Board::recordMoveHistory(int row ,int col ){
-    moveHistory.push(std::make_pair(row,col));
-    return true;
-}
-bool Board::undoLastMove() {
-    if(moveHistory.empty()){
-        return false;
-    }
-    auto lastMove = moveHistory.top();
-    int lastMoveRow = lastMove.first;
-    int lastMoveCol = lastMove.second;
-    grid_[lastMoveRow][lastMoveCol] = nullptr;
-    moveHistory.pop();
-    return true;
 
-}
 
 std::shared_ptr<Piece> Board::getPiece(int row, int col) const {
     if (!isValidPosition(row, col)) {
