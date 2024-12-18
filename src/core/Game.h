@@ -16,6 +16,7 @@ public:
     ~Game() = default;
 
     void start();
+    void inputName();
     void end();
 
     bool undoMove();
