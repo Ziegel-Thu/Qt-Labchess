@@ -2,7 +2,7 @@
 
 基于Steam游戏"Time Chess Demo"开发的国际象棋游戏，使用Qt 6.7.3实现核心功能。
 
-![alt text](image.png)
+![alt text](./pics/screenshot.png)
 
 ## 功能特点
 

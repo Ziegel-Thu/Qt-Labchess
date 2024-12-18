@@ -29,7 +29,7 @@ build-mingw32:
     paths:
       - build/release/
 
-test-undo:
+test:
   stage: test
   needs:
     - job: build-linux
