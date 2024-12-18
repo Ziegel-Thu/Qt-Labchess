@@ -52,12 +52,12 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../tst_game.cpp \
+SOURCES       = ../test_game.cpp \
 		../../core/Game.cpp \
 		../../core/Player.cpp \
 		../../core/Board.cpp \
 		../../core/Piece.cpp moc_Game.cpp
-OBJECTS       = tst_game.o \
+OBJECTS       = test_game.o \
 		Game.o \
 		Player.o \
 		Board.o \
@@ -411,7 +411,7 @@ DIST          = /opt/homebrew/share/qt/mkspecs/features/spec_pre.prf \
 		../../chess-tests.pro ../../core/Game.h \
 		../../core/Player.h \
 		../../core/Board.h \
-		../../core/Piece.h ../tst_game.cpp \
+		../../core/Piece.h ../test_game.cpp \
 		../../core/Game.cpp \
 		../../core/Player.cpp \
 		../../core/Board.cpp \
@@ -1156,7 +1156,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/homebrew/share/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../core/Game.h ../../core/Player.h ../../core/Board.h ../../core/Piece.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../tst_game.cpp ../../core/Game.cpp ../../core/Player.cpp ../../core/Board.cpp ../../core/Piece.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../test_game.cpp ../../core/Game.cpp ../../core/Player.cpp ../../core/Board.cpp ../../core/Piece.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -1209,10 +1209,10 @@ moc_Game.cpp: ../../core/Game.h \
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
-compiler_moc_source_make_all: tst_game.moc
+compiler_moc_source_make_all: test_game.moc
 compiler_moc_source_clean:
-	-$(DEL_FILE) tst_game.moc
-tst_game.moc: ../tst_game.cpp \
+	-$(DEL_FILE) test_game.moc
+test_game.moc: ../test_game.cpp \
 		/opt/homebrew/lib/QtTest.framework/Headers/QtTest \
 		/opt/homebrew/lib/QtTest.framework/Headers/qttestglobal.h \
 		/opt/homebrew/lib/QtTest.framework/Headers/qabstractitemmodeltester.h \
@@ -1238,7 +1238,7 @@ tst_game.moc: ../tst_game.cpp \
 		../../core/Player.h \
 		moc_predefs.h \
 		/opt/homebrew/share/qt/libexec/moc
-	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include /Users/apple/Desktop/Study/CS/C++/qt-labchess/src/tests/test-build/moc_predefs.h -I/opt/homebrew/share/qt/mkspecs/macx-clang -I/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/tests -I/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core -I/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/ui -I/opt/homebrew/lib/QtTest.framework/Headers -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/opt/homebrew/lib ../tst_game.cpp -o tst_game.moc
+	/opt/homebrew/share/qt/libexec/moc $(DEFINES) --include /Users/apple/Desktop/Study/CS/C++/qt-labchess/src/tests/test-build/moc_predefs.h -I/opt/homebrew/share/qt/mkspecs/macx-clang -I/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/tests -I/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/core -I/Users/apple/Desktop/Study/CS/C++/qt-labchess/src/ui -I/opt/homebrew/lib/QtTest.framework/Headers -I/opt/homebrew/lib/QtWidgets.framework/Headers -I/opt/homebrew/lib/QtGui.framework/Headers -I/opt/homebrew/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/opt/homebrew/lib ../test_game.cpp -o test_game.moc
 
 compiler_uic_make_all:
 compiler_uic_clean:
@@ -1254,7 +1254,7 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_mo
 
 ####### Compile
 
-tst_game.o: ../tst_game.cpp /opt/homebrew/lib/QtTest.framework/Headers/QtTest \
+test_game.o: ../test_game.cpp /opt/homebrew/lib/QtTest.framework/Headers/QtTest \
 		/opt/homebrew/lib/QtTest.framework/Headers/qttestglobal.h \
 		/opt/homebrew/lib/QtTest.framework/Headers/qabstractitemmodeltester.h \
 		/opt/homebrew/lib/QtTest.framework/Headers/qbenchmark.h \
@@ -1277,8 +1277,8 @@ tst_game.o: ../tst_game.cpp /opt/homebrew/lib/QtTest.framework/Headers/QtTest \
 		../../core/Board.h \
 		../../core/Piece.h \
 		../../core/Player.h \
-		tst_game.moc
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o tst_game.o ../tst_game.cpp
+		test_game.moc
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o test_game.o ../test_game.cpp
 
 Game.o: ../../core/Game.cpp ../../core/Game.h \
 		../../MySTL/my_vector.h \

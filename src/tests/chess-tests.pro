@@ -14,7 +14,7 @@ INCLUDEPATH += \
 
 # 测试源文件
 SOURCES += \
-    tst_game.cpp
+    test_game.cpp
 
 # 核心模块源文件
 SOURCES += \

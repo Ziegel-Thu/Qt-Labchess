@@ -415,4 +415,4 @@ private slots:
 };
 
 QTEST_MAIN(TestGame)
-#include "tst_game.moc" 
+#include "test_game.moc" 

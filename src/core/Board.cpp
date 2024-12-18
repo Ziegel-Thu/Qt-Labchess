@@ -4,11 +4,6 @@ Board::Board(int rows, int cols) : rows_(rows), cols_(cols) {
     grid_.resize(rows_, MyVector<std::shared_ptr<Piece>>(cols_, nullptr));
 }
 
-void Board::initialize() {
-    for (auto& row : grid_) {
-        std::fill(row.begin(), row.end(), nullptr);
-    }
-}
 
 bool Board::setPiece(int row, int col, std::shared_ptr<Piece> piece) {
     if (isValidPosition(row, col) ) {

@@ -1,4 +1,4 @@
-# 详细报告——TimeChess
+# 详细报告————TimeChess
 
 ## 1. 功能介绍
 
@@ -125,16 +125,46 @@ classDiagram
         -selectable_: bool
         -moveHistory_: MyVector<MyVector<tuple>>
         -viewedMoveHistory_: MyVector<MyVector<tuple>>
+        -timePiecePosition_: MyVector<tuple>
+        -dyingPieceList_: MyVector<Piece>
+        -numQueenAdditional_: int
+        -machineNumber1_: int
+        -machineNumber0_: int
+        +redKing_: Piece
+        +blueKing_: Piece
+        +pieceList_: MyVector<Piece>
+        
         +Game()
         +start()
+        +inputName()
         +end()
         +undoMove(): bool
         +redoMove(): bool
         +press(row: int, col: int): bool
         +switchPlayer()
+        +initializeChessPieces()
         +isGameOver(): bool
         +getBoard(): Board
+        +getDyingBoard(): Board
+        +getPlayers(): MyVector<Player>
         +getCurrentPlayer(): Player
+        +isValidMove(): bool
+        +updateDeathTime()
+        +isKingAlive(): bool
+        +getStep(): int
+        +getDyingPieceList(): MyVector<Piece>
+        +setSelectable(bool)
+        +pass()
+        +confirm()
+        -isPathClear(): bool
+        -initializePlayers()
+        -updateMoveHistory()
+        -undoBoard()
+        -undoHistory()
+        -redoBoard()
+        -redoHistory()
+        -updateTimePiecePosition()
+        -handlePieceCrashing()
     }
 
     class Board {
@@ -161,15 +191,23 @@ classDiagram
         +Piece(color: string, type: string, isTimePiece: bool, row: int, col: int)
         +getColor(): string
         +getType(): string
+        +isTimePiece(): bool
         +isAlive(): bool
         +setAlive(isAlive: bool, deathTime: int)
+        +getDeathTime(): int
+        +setDeathTime(int)
+        +setRow(int)
+        +setCol(int)
         +getRow(): int
         +getCol(): int
+        +setColor(string)
+        +setType(string)
+        +setTimePiece(bool)
     }
 
     class Player {
-        -name_: string
-        -color_: string
+        +name_: string
+        #color_: string
         +Player(name: string, color: string)
         +getName(): string
         +getColor(): string
@@ -177,9 +215,14 @@ classDiagram
         +setColor(color: string)
     }
 
+    %% 继承关系
+    QObject <|-- Game
+
+    %% 关联关系
     Game "1" *-- "1" Board
     Game "1" *-- "2" Player
-    Game "1" *-- "*" Piece
+    Game "1" o-- "*" Piece
+    Board "1" o-- "*" Piece
     
 
 
