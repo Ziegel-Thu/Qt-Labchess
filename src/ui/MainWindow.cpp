@@ -70,8 +70,14 @@ void MainWindow::onInputNameRequested(){
 }
 
 void MainWindow::onGameEnd() {
-    std::string str = game_->getCurrentPlayer()->getName() + " 获胜！";
-    QMessageBox::information(this, "Game Over", str.c_str());
+    if(game_->isLanguageChinese_){
+        std::string str = game_->getCurrentPlayer()->getName() + " 获胜！";
+        QMessageBox::information(this, "游戏结束", str.c_str());
+    }
+    else{
+        std::string str = game_->getCurrentPlayer()->getName() + " wins!";
+        QMessageBox::information(this, "Game Over", str.c_str());
+    }
 }
 
 void MainWindow::onPress(int row, int col) {

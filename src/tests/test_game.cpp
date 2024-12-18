@@ -412,6 +412,12 @@ private slots:
         QVERIFY(!game->undoMove());
         QVERIFY(!game->redoMove());
     }
+    void testLanguageSwitch()
+    {
+        game->languageSwitch();
+        QVERIFY(game->getPlayers()[0]->getName() == "Player 1");
+        QVERIFY(game->getPlayers()[1]->getName() == "Player 2");
+    }
 };
 
 QTEST_MAIN(TestGame)

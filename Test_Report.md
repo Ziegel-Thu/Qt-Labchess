@@ -1,4 +1,4 @@
-# 测试报告————Qt-LabChess
+# 测试报告——TimeChess
 
 ## 1. 测试配置
 
@@ -54,8 +54,7 @@ Totals: 19 passed, 0 failed, 0 skipped, 0 blacklisted, 22657ms
 
 覆盖率报告可以详见core_coverage.txt和core_coverage_detailed.html。
 
-其中主体函数Game.cpp的覆盖率达到了89%，剩余的部分里大多是一些在UI中调用的函数，不在本次测试的范围内。Board.cpp达到了100%。
-
+其中主体函数Game.cpp的覆盖率达到了89%，剩余的部分里大多是一些在UI中调用的函数，不在本次测试的范围内。Board.cpp达到了100%。Piece.cpp和Player.cpp的覆盖率也达到了70%。
 
 
 

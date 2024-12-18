@@ -1,4 +1,13 @@
 qt-labchess/
+|
+├── .github/
+|   ├── ISSUE_TEMPLATE/
+|   ├── PULL_REQUEST_TEMPLATE.md
+|   └── CONTRIBUTING.md
+|
+├── .vscode/
+|   └── tasks.json
+|
 ├── src/
 │   ├── core/
 │   │   ├── Game.h

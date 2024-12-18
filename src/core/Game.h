@@ -17,8 +17,8 @@ public:
 
     void start();
     void inputName();
+    void languageSwitch();
     void end();
-
     bool undoMove();
     void switchPlayer();
     void initializeChessPieces();
@@ -34,7 +34,8 @@ public:
     bool isKingAlive(const std::string &color);
     int getStep();
     MyVector<std::shared_ptr<Piece>> getDyingPieceList() const;
-
+    
+    bool isLanguageChinese_ = true;
     std::shared_ptr<Piece> redKing_;
     std::shared_ptr<Piece> blueKing_;
 
@@ -51,6 +52,7 @@ public:
 
 signals:
     void updateGameTimeMachineButton();
+    void playerLanguageSwitchRequested();
 
 protected:
     std::shared_ptr<Board> board_;

@@ -37,7 +37,6 @@ private slots:
     void onPassRequested();
     void onConfirmRequested();
     void showUndoRedoButtons(bool show);
-
     
     // 新增 press 方法
     void onPress(int row, int col);

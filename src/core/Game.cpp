@@ -20,33 +20,35 @@ Game::Game()
 }
 
 void Game::initializePlayers() {
-    QString player1Name = "Player1";
-    QString player2Name = "Player2";
-
-
+    players_.clear();
+    QString player1Name = "玩家1";
+    QString player2Name = "玩家2";
+    
     players_.push_back(std::make_shared<Player>(player1Name.toStdString(), "Red"));
     players_.push_back(std::make_shared<Player>(player2Name.toStdString(), "Blue"));
+    emit playerLanguageSwitchRequested();
 }
+
 
 void Game::inputName(){
 
     while(true){
         QInputDialog dialog;
         bool ok;
-        QString player1Name = dialog.getText(nullptr, "玩家名称", "请输入玩家1的名称:", QLineEdit::Normal, "Player1", &ok);
+        QString player1Name = dialog.getText(nullptr, isLanguageChinese_?"玩家名称":"Player Name", isLanguageChinese_?"请输入玩家1（红方）的名称":"Please enter the name (red) of player 1", QLineEdit::Normal, "玩家1", &ok);
         if(ok){
             players_[0]->setName(player1Name.toStdString());
         }
-        QString player2Name = dialog.getText(nullptr, "玩家名称", "请输入玩家2的名称:", QLineEdit::Normal, "Player2", &ok);
+        QString player2Name = dialog.getText(nullptr, isLanguageChinese_?"玩家名称":"Player Name", isLanguageChinese_?"请输入玩家2（蓝方）的名称":"Please enter the name (blue) of player 2", QLineEdit::Normal, "玩家2", &ok);
         if(ok){
             players_[1]->setName(player2Name.toStdString());
         }
         if(player1Name.isEmpty()||player2Name.isEmpty()){
-            QMessageBox::information(nullptr, "提示", "玩家名称不能为空");
+            QMessageBox::information(nullptr, isLanguageChinese_?"提示":"Notice", isLanguageChinese_?"玩家名称不能为空":"Player name cannot be empty");
         }
         else{
             if(player1Name==player2Name){
-                QMessageBox::information(nullptr, "提示", "玩家名称不能相同");
+                QMessageBox::information(nullptr, isLanguageChinese_?"提示":"Notice", isLanguageChinese_?"玩家名称不能相同":"Player name cannot be the same");
             }
             else{
                 break;
@@ -111,6 +113,13 @@ void Game::start()
     initializeChessPieces();
     currentPlayer_ = players_[0];
 
+}
+
+void Game::languageSwitch(){
+    isLanguageChinese_ = !isLanguageChinese_;   
+    players_[0]->setName(isLanguageChinese_?"玩家1":"Player 1");
+    players_[1]->setName(isLanguageChinese_?"玩家2":"Player 2");
+    emit playerLanguageSwitchRequested();
 }
 
 void Game::end() {gameOver_ = true;}
@@ -212,7 +221,7 @@ bool Game::undoMove()
     }
     if (moveHistory_.size() <=2)
     {
-        QMessageBox::information(nullptr, "提示", "没有更早步骤");
+        QMessageBox::information(nullptr, isLanguageChinese_?"提示":"Notice", isLanguageChinese_?"没有更早步骤":"No earlier steps");
 
         return false;
     }
@@ -231,7 +240,7 @@ bool Game::redoMove()
     }
     if (viewedMoveHistory_.size() <= 1)
     {
-        QMessageBox::information(nullptr, "提示", "已经是最新步骤");
+        QMessageBox::information(nullptr, isLanguageChinese_?"提示":"Notice", isLanguageChinese_?"已经是最新步骤":"Already the latest step");
         return false;
     }
     redoBoard();
@@ -433,7 +442,7 @@ void Game::confirm()
     {
         machineNumber0_--;
     }
-    QMessageBox::information(nullptr, "提示", "时光逆流成功，请继续");
+    QMessageBox::information(nullptr, isLanguageChinese_?"提示":"Notice", isLanguageChinese_?"时光逆流成功，请继续":"Time travel successful, please continue");
 }
 void Game::undoBoard(){
     MyVector<std::tuple<std::shared_ptr<Piece>, int, int>> temp = moveHistory_.back();

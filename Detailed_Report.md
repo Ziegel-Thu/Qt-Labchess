@@ -1,4 +1,4 @@
-# 详细报告————TimeChess
+# 详细报告——TimeChess
 
 ## 1. 功能介绍
 
@@ -11,6 +11,8 @@ TimeChess 是一个基于 Qt 的五子棋游戏，支持双人对战，拥有Qt�
 Time_Piece将在时间回溯中保持不动，时间回溯可以复活死亡的棋子，但是死亡的棋子会有生命周期至其原定死亡的地方。
 
 在回溯中位置被Time_Piece占据的棋子将直接死亡，但可以在下一次回溯中被复活。
+
+此外，游戏支持语言切换，可以在中文和英文之间切换。
 
 ## 2.结构设计
 
@@ -65,6 +67,8 @@ test部分主要负责测试core的功能，包括棋盘的绘制，棋子的移
 棋子用pixmap更改大小，并利用QPainter绘制棋子。
 
 对于复活的死亡棋子，会在右上角用标志色标出他的生命周期。
+
+对于Time_Piece，会像游戏中一样用金色的内接正方形框住。
 
 对于在回溯过程中被Time_Piece占据的棋子，会半透明地覆盖显示。他的实现技术是创建了额外的list，并用Qpainter一并按照绘制规则绘制。
 
@@ -133,10 +137,11 @@ classDiagram
         +redKing_: Piece
         +blueKing_: Piece
         +pieceList_: MyVector<Piece>
-        
+        -isLanguageChinese_: bool
         +Game()
         +start()
         +inputName()
+        +languageSwitch()
         +end()
         +undoMove(): bool
         +redoMove(): bool
@@ -166,7 +171,7 @@ classDiagram
         -updateTimePiecePosition()
         -handlePieceCrashing()
     }
-
+    
     class Board {
         -rows_: int
         -cols_: int
@@ -179,7 +184,7 @@ classDiagram
         +getRows(): int
         +getCols(): int
     }
-
+    
     class Piece {
         -color_: string
         -type_: string
@@ -204,7 +209,7 @@ classDiagram
         +setType(string)
         +setTimePiece(bool)
     }
-
+    
     class Player {
         +name_: string
         #color_: string
@@ -214,16 +219,15 @@ classDiagram
         +setName(name: string)
         +setColor(color: string)
     }
-
+    
     %% 继承关系
     QObject <|-- Game
-
+    
     %% 关联关系
     Game "1" *-- "1" Board
     Game "1" *-- "2" Player
     Game "1" o-- "*" Piece
     Board "1" o-- "*" Piece
-    
 
 
 

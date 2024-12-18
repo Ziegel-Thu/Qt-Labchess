@@ -4,7 +4,7 @@ Player::Player(const std::string& name, const std::string& color) : name_(name),
 
 void Player::setName(const std::string& name) {name_ = name;}
 
-void Player::setColor(const std::string& color) {color_ = color;}
+//void Player::setColor(const std::string& color) {color_ = color;}
 
 std::string Player::getName() const {return name_;}
 

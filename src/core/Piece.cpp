@@ -1,7 +1,7 @@
 #include "Piece.h"
 
 Piece::Piece(const std::string& color, const std::string& type, bool isTimePiece, int row, int col, bool isAlive, int deathTime) 
-    : color_(color), type_(type), isTimePiece_(isTimePiece), row_(row), col_(col), isAlive_(isAlive), deathTime_(deathTime) {}
+    : color_(color), type_(type), row_(row), col_(col), isTimePiece_(isTimePiece), isAlive_(isAlive), deathTime_(deathTime) {}
 
 void Piece::setColor(const std::string& color) {color_ = color;}
 
@@ -29,7 +29,6 @@ bool Piece::isAlive() const {return isAlive_;}
 void Piece::setDeathTime(int deathTime) {deathTime_ = deathTime;}
 
 int Piece::getDeathTime() const {return deathTime_;}
-
 
 void Piece::setType(const std::string& type) {type_ = type;}
 
