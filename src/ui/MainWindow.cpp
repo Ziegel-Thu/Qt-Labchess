@@ -47,6 +47,7 @@ void MainWindow::connectSignals() {
     connect(operationWidget_.get(), &OperationWidget::inputNameRequested, this, &MainWindow::onInputNameRequested);
     connect(operationWidget_.get(), &OperationWidget::undoRequested, this, &MainWindow::onUndoRequested);
     connect(operationWidget_.get(), &OperationWidget::timemachineRequested, this, &MainWindow::onTimemachineRequested);
+    connect(operationWidget_.get(), &OperationWidget::updateTimeMachineButton, this, &MainWindow::updateTimeMachineButton);
     connect(operationWidget_.get(), &OperationWidget::redoRequested, this, &MainWindow::onRedoRequested);
     connect(operationWidget_.get(), &OperationWidget::passRequested, this, &MainWindow::onPassRequested);
     connect(operationWidget_.get(), &OperationWidget::confirmRequested, this, &MainWindow::onConfirmRequested);
@@ -66,7 +67,7 @@ void MainWindow::onGameStart() {
 void MainWindow::onInputNameRequested(){
     game_->inputName();
     playerInfoWidget_->update();
-    operationWidget_->showInputNameButtons(false);
+    updateTimeMachineButton();
 }
 
 void MainWindow::onGameEnd() {
@@ -76,8 +77,10 @@ void MainWindow::onGameEnd() {
     }
     else{
         std::string str = game_->getCurrentPlayer()->getName() + " wins!";
+        
         QMessageBox::information(this, "Game Over", str.c_str());
     }
+    game_->reset();
 }
 
 void MainWindow::onPress(int row, int col) {
@@ -102,15 +105,29 @@ void MainWindow::onTimemachineRequested() {
 
 void MainWindow::updateTimeMachineButton() {
     // 获取当前玩家的名字
-    QString currentPlayerName = QString::fromStdString(game_->getCurrentPlayer()->getName()); // 获取当前玩家名字并转换为 QString
-    operationWidget_->getTimeMachineButton1()->setVisible(false);
-    operationWidget_->getTimeMachineButton0()->setVisible(false);
-    if((currentPlayerName==QString::fromStdString(game_->players_[1]->getName())&&game_->machineNumber1_!=0)){
-        operationWidget_->getTimeMachineButton1()->setVisible(true);
-
+    if(operationWidget_->getTimeMachineButton1()){
+        operationWidget_->getTimeMachineButton1()->setVisible(false);
+        if((game_->getCurrentPlayer()==game_->players_[1])&&game_->machineNumber1_!=0){
+            if(game_->isLanguageChinese_){
+                operationWidget_->getTimeMachineButton1()->setText(QString::fromStdString(game_->players_[1]->getName())+" 的时光机");
+            }
+            else{
+                operationWidget_->getTimeMachineButton1()->setText(QString::fromStdString(game_->players_[1]->getName())+" Time Machine");
+            }
+            operationWidget_->getTimeMachineButton1()->setVisible(true);
+        }
     }
-    if((currentPlayerName==QString::fromStdString(game_->players_[0]->getName())&&game_->machineNumber0_!=0)){
-        operationWidget_->getTimeMachineButton0()->setVisible(true);
+    if(operationWidget_->getTimeMachineButton0()){  
+        operationWidget_->getTimeMachineButton0()->setVisible(false);
+        if((game_->getCurrentPlayer()==game_->players_[0])&&game_->machineNumber0_!=0){
+            if(game_->isLanguageChinese_){
+                operationWidget_->getTimeMachineButton0()->setText(QString::fromStdString(game_->players_[0]->getName())+" 的时光机");
+            }
+            else{
+                operationWidget_->getTimeMachineButton0()->setText(QString::fromStdString(game_->players_[0]->getName())+" Time Machine");
+            }
+            operationWidget_->getTimeMachineButton0()->setVisible(true);
+        }
     }
 
 

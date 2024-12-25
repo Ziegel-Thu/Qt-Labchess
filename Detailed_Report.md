@@ -228,6 +228,13 @@ classDiagram
     Game "1" *-- "2" Player
     Game "1" o-- "*" Piece
     Board "1" o-- "*" Piece
+    MainWindow "1" *-- "1" PlayerInfoWidget   
+    MainWindow "1" *-- "1" BoardWidget         
+    MainWindow "1" *-- "1" OperationWidget 
+    MainWindow "1" o-- "1" Game
+    OperationWidget "1" o-- "1" Game
+    PlayerInfoWidget "1" o-- "1" Game
+    BoardWidget "1" o-- "1" Game
 
 
 

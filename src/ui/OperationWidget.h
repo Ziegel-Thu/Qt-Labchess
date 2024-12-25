@@ -24,6 +24,7 @@ signals:
     void passRequested();
     void confirmRequested();
     void inputNameRequested();
+    void updateTimeMachineButton();
 private:
     std::shared_ptr<Game> game_;
     std::shared_ptr<QPushButton> startButton_;

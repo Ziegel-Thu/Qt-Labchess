@@ -417,6 +417,10 @@ private slots:
         game->languageSwitch();
         QVERIFY(game->getPlayers()[0]->getName() == "Player 1");
         QVERIFY(game->getPlayers()[1]->getName() == "Player 2");
+        game->languageSwitch();
+        QVERIFY(game->getPlayers()[0]->getName() == "玩家1");
+        QVERIFY(game->getPlayers()[1]->getName() == "玩家2");
+
     }
 };
 

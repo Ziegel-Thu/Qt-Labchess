@@ -29,11 +29,11 @@ qt-labchess/
 │   │   ├──   OperationWidget.h
 │   │   └──   OperationWidget.cpp
 │   │
-│   └── main.cpp
-│
-│── tests/
-│   ├── test_game.cpp
-│   └── chess-test.pro
+│   ├── main.cpp
+│   │
+│   └── tests/
+│       ├── test_game.cpp
+│       └── chess-test.pro
 |
 ├── qt-labchess.pro
 |

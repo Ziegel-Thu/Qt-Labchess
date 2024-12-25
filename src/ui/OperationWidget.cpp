@@ -60,18 +60,23 @@ void OperationWidget::showPassConfirmButtons(bool show){
     passButton_->setVisible(show);
     confirmButton_->setVisible(show);
 }
-void OperationWidget::showInputNameButtons(bool show){
-    inputNameButton_->setVisible(show);
-}
+
 void OperationWidget::languageSwitchRequested(){
-    startButton_->setText("Start New Game");
-    inputNameButton_->setText("Customize Name");
-    languageSwitchButton_->setText("中/En");
-    timemachineButton1_->setText(QString::fromStdString(game_->players_[1]->getName())+" Time Machine");
-    timemachineButton0_->setText(QString::fromStdString(game_->players_[0]->getName())+" Time Machine");
-    undoButton_->setText("Undo");
-    redoButton_->setText("Redo");
-    passButton_->setText("Pass");
-    confirmButton_->setText("Confirm");
+    if(game_-> isLanguageChinese_){
+        startButton_->setText("Start New Game");
+        inputNameButton_->setText("Customize Name");
+        undoButton_->setText("Undo");
+        redoButton_->setText("Redo");
+        passButton_->setText("Pass");
+        confirmButton_->setText("Confirm");}
+    else{
+        startButton_->setText("开始新游戏");
+        inputNameButton_->setText("自定义昵称");
+        undoButton_->setText("回退");
+        redoButton_->setText("前进");
+        passButton_->setText("放弃");
+        confirmButton_->setText("确认");
+    }
     game_->languageSwitch();
+    emit updateTimeMachineButton();
 }

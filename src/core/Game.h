@@ -16,9 +16,10 @@ public:
     ~Game() = default;
 
     void start();
+    void reset();
+    void end();
     void inputName();
     void languageSwitch();
-    void end();
     bool undoMove();
     void switchPlayer();
     void initializeChessPieces();

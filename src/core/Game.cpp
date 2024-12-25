@@ -16,7 +16,22 @@ Game::Game()
     isPieceSelected_ = false;
     machineNumber1_ = 1;
     machineNumber0_ = 1;
+    selectable_ = false;
+}
+
+void Game::reset(){
+    gameOver_ = false;
+    initializeChessPieces();
+    selectedPiece_ = nullptr;
+    isPieceSelected_ = false;
+    machineNumber1_ = 1;
+    machineNumber0_ = 1;
     selectable_ = true;
+
+}
+
+void Game::end(){
+    gameOver_ = true;
 }
 
 void Game::initializePlayers() {
@@ -98,6 +113,7 @@ void Game::initializeChessPieces()
     {
         board_->setPiece(piece->getRow(), piece->getCol(), piece);
     }
+    selectable_ = true;
     updateMoveHistory();
     updateTimePiecePosition();
 
@@ -121,8 +137,6 @@ void Game::languageSwitch(){
     players_[1]->setName(isLanguageChinese_?"玩家2":"Player 2");
     emit playerLanguageSwitchRequested();
 }
-
-void Game::end() {gameOver_ = true;}
 
 void Game::switchPlayer() {currentPlayer_ = (currentPlayer_ == players_[0]) ? players_[1] : players_[0];}
 
